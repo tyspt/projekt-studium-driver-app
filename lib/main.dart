@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'widgets/package_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
             _selectedIndex == 0 ? 'Incoming Packages' : 'Outgoing Packages'),
       ),
-      body: Center(child: Text(_selectedIndex.toString())),
+      body: Center(child: PackageListWidget()),
       floatingActionButton: FloatingActionButton(
         onPressed: null,
         tooltip: 'Scan Barcode / QR Code',

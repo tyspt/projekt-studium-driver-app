@@ -35,21 +35,21 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+            _selectedIndex == 0 ? 'Incoming Packages' : 'Outgoing Packages'),
       ),
       body: Center(child: Text(_selectedIndex.toString())),
       floatingActionButton: FloatingActionButton(
         onPressed: null,
-        tooltip: 'Scan Barcode',
+        tooltip: 'Scan Barcode / QR Code',
         child: Icon(Icons.camera_alt),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.view_list), title: Text('Package List')),
+              icon: Icon(Icons.get_app), title: Text('Incoming')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), title: Text('Profile')),
+              icon: Icon(Icons.publish), title: Text('Outgoing')),
         ],
         currentIndex: _selectedIndex,
         onTap: (index) => setState(() {

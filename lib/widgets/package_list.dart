@@ -56,45 +56,39 @@ class PackageItem extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  Casing.titleCase(
-                                      package['recipient']['name']),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16.0,
-                                  ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Casing.titleCase(package['recipient']['name']),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16.0,
                                 ),
-                                SizedBox(height: 4),
-                                Text(
-                                  '#' + package['barcode'],
-                                ),
-                                Text(
-                                  package['timeCreated'],
-                                ),
-                              ],
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                '#' + package['barcode'],
+                              ),
+                              Text(
+                                package['timeCreated'],
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          Chip(
+                            padding:
+                                const EdgeInsets.fromLTRB(2.0, 0.0, 2.0, 0.0),
+                            backgroundColor:
+                                _getStatusChipColor(package['status']),
+                            label: Text(
+                              Casing.titleCase(package['status']),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500),
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: Chip(
-                              padding:
-                                  const EdgeInsets.fromLTRB(2.0, 0.0, 2.0, 0.0),
-                              backgroundColor:
-                                  _getStatusChipColor(package['status']),
-                              label: Text(
-                                Casing.titleCase(package['status']),
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          )
                         ],
                       ),
                       Text(

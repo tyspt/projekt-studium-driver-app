@@ -70,9 +70,10 @@ class PackageItem extends StatelessWidget {
                               Text(
                                 '#' + package['barcode'],
                               ),
-                              Text(
-                                package['timeCreated'],
-                              ),
+                              Text(package['timeCreated'],
+                                  textScaleFactor: 0.9,
+                                  style: TextStyle(
+                                      color: Colors.black.withOpacity(0.6))),
                             ],
                           ),
                           Spacer(),

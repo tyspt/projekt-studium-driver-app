@@ -1,16 +1,17 @@
 import 'package:dart_casing/dart_casing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../services/package_data.dart';
 
 class PackageList extends StatelessWidget {
-  final packages = PackageData.data;
+  final packages;
+
+  PackageList(this.packages);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ListView(
-        children: packages.map((package) => PackageItem(package)).toList(),
+        children: packages.map<Widget>((package) => PackageItem(package)).toList(),
       ),
     );
   }

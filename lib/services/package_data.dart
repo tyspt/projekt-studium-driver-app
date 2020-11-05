@@ -48,7 +48,7 @@ class PackageData {
         'name': 'BETTIE JONES',
       },
       'status': 'IM_TRANSPORT',
-      'type': Type.INBOUND,
+      'type': Type.OUTBOUND,
     },
     {
       'id': '3',
@@ -672,7 +672,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': Type.OUTBOUND,
     },
   ];
 }

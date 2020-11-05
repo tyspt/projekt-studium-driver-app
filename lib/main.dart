@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:projekt_studium_driver_app/models/package.dart';
+import 'package:projekt_studium_driver_app/services/package_data.dart';
 import 'widgets/package_list.dart';
 
 void main() {
@@ -32,6 +34,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
+  final _incomingPackages =
+      PackageData.data.where((package) => package['type'] == Type.INBOUND);
+  final _outgoingPackages =
+      PackageData.data.where((package) => package['type'] == Type.OUTBOUND);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
             _selectedIndex == 0 ? 'Incoming Packages' : 'Outgoing Packages'),
       ),
-      body: Center(child: PackageList()),
+      body: Center(
+          child: PackageList(
+              _selectedIndex == 0 ? _incomingPackages : _outgoingPackages)),
       floatingActionButton: FloatingActionButton(
         onPressed: null,
         tooltip: 'Scan Barcode / QR Code',

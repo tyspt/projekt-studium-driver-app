@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
             _selectedIndex == 0 ? 'Incoming Packages' : 'Outgoing Packages'),
       ),
-      body: Center(child: PackageListWidget()),
+      body: Center(child: PackageList()),
       floatingActionButton: FloatingActionButton(
         onPressed: null,
         tooltip: 'Scan Barcode / QR Code',

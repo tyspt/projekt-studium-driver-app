@@ -1,9 +1,7 @@
 import 'package:projekt_studium_driver_app/models/package.dart';
 
-import '../package_service.dart';
-
-class PackageService extends PackageData {
-  final data = [
+class PackageData {
+  static final data = [
     {
       'id': '1',
       'barcode': '1937917519711295139517',
@@ -25,7 +23,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.GELIEFERT,
+      'status': 'GELIEFERT',
       'type': Type.INBOUND,
     },
     {
@@ -49,7 +47,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'BETTIE JONES',
       },
-      'status': Status.IM_TRANSPORT,
+      'status': 'IM_TRANSPORT',
       'type': Type.INBOUND,
     },
     {
@@ -73,7 +71,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'GEORGE JUNIUS STINNEY',
       },
-      'status': Status.SORTIERT,
+      'status': 'SORTIERT',
       'type': Type.INBOUND,
     },
     {
@@ -97,7 +95,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'JOHN CRAWFORD',
       },
-      'status': Status.SORTIERT,
+      'status': 'SORTIERT',
       'type': Type.INBOUND,
     },
     {
@@ -121,7 +119,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'DANTE PARKER',
       },
-      'status': Status.GELIEFERT,
+      'status': 'GELIEFERT',
       'type': Type.INBOUND,
     },
     {
@@ -145,7 +143,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'JANET WILSON',
       },
-      'status': Status.IM_TRANSPORT,
+      'status': 'IM_TRANSPORT',
       'type': Type.INBOUND,
     },
     {
@@ -169,7 +167,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.IM_TRANSPORT,
+      'status': 'IM_TRANSPORT',
       'type': Type.INBOUND,
     },
     {
@@ -193,7 +191,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.GELIEFERT,
+      'status': 'GELIEFERT',
       'type': Type.INBOUND,
     },
     {
@@ -217,7 +215,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.GELIEFERT,
+      'status': 'GELIEFERT',
       'type': Type.INBOUND,
     },
     {
@@ -241,7 +239,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.SORTIERT,
+      'status': 'SORTIERT',
       'type': Type.INBOUND,
     },
     {
@@ -265,7 +263,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.SORTIERT,
+      'status': 'SORTIERT',
       'type': Type.INBOUND,
     },
     {
@@ -289,7 +287,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.IM_TRANSPORT,
+      'status': 'IM_TRANSPORT',
       'type': Type.INBOUND,
     },
     {
@@ -313,7 +311,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -323,7 +321,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'F12',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -331,13 +329,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'C37',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -347,7 +345,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'B22',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -355,13 +353,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'K47',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -371,7 +369,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'F12',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -385,7 +383,7 @@ class PackageService extends PackageData {
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -395,7 +393,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'A12',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -403,13 +401,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'B15',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -419,7 +417,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'C22',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -427,13 +425,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'F15a',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -443,7 +441,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'K15',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -451,13 +449,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'A12',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -467,7 +465,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'C31',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -475,13 +473,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'K22',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -491,7 +489,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'F03',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -499,13 +497,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'G12',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -515,7 +513,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'H55',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -523,13 +521,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'K47',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -539,7 +537,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'F13',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -547,13 +545,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'F05',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -563,7 +561,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'K19',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -571,13 +569,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'A15',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -587,7 +585,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'C22',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -595,13 +593,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'D36',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -611,7 +609,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'A15',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -619,13 +617,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'B32',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -635,7 +633,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'C05',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -643,13 +641,13 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'K42',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
     {
@@ -659,7 +657,7 @@ class PackageService extends PackageData {
         'name': 'John Doe',
         'email': 'john.doe@continental.com',
         'telephone': '123-4567890',
-        'building': 'D42',
+        'building': 'O15',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/7, Regensburg',
       },
       'timeCreated': '2020-10-30 12:42:35',
@@ -667,31 +665,14 @@ class PackageService extends PackageData {
         'name': 'Anna Musterfrau',
         'email': 'anna.musterfrau@continental.com',
         'telephone': '987-6543210',
-        'building': 'D42',
+        'building': 'K12',
         'fullAddress': 'Siemensstraße 12 Geb. D42/4/8, Regensburg',
       },
       'sender': {
         'name': 'Max Mustermann',
       },
-      'status': Status.ERFASST,
+      'status': 'ERFASST',
       'type': Type.INBOUND,
     },
   ];
-
-  @override
-  List<Package> getData() {
-    return this.data;
-  }
-
-  @override
-  Package getPackagebyBarcode(String barcode) {
-    // TODO: implement getPackagebyBarcode
-    throw UnimplementedError();
-  }
-
-  @override
-  Package getPackagebyId(String id) {
-    // TODO: implement getPackagebyId
-    throw UnimplementedError();
-  }
 }

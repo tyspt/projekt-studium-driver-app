@@ -11,7 +11,8 @@ class PackageList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ListView(
-        children: packages.map<Widget>((package) => PackageItem(package)).toList(),
+        children:
+            packages.map<Widget>((package) => PackageItem(package)).toList(),
       ),
     );
   }
@@ -43,16 +44,14 @@ class PackageItem extends StatelessWidget {
             print('Card tapped.');
           },
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 4, 12, 12),
+            padding: const EdgeInsets.all(8),
             child: Row(
               children: [
                 // Left Avatar section
-                Padding(
-                    padding: EdgeInsets.only(top: 8),
-                    child: CircleAvatar(
-                      backgroundColor: Theme.of(context).primaryColorLight,
-                      child: Text(package['recipient']['building']),
-                    )),
+                CircleAvatar(
+                  backgroundColor: Theme.of(context).primaryColorLight,
+                  child: Text(package['recipient']['building']),
+                ),
                 const SizedBox(width: 16),
                 // Right Text & Status section
                 Expanded(
@@ -65,7 +64,6 @@ class PackageItem extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 8),
                               Text(
                                 Casing.titleCase(package['recipient']['name']),
                                 style: const TextStyle(
@@ -84,17 +82,19 @@ class PackageItem extends StatelessWidget {
                             ],
                           ),
                           Spacer(),
-                          Chip(
-                            padding:
-                                const EdgeInsets.fromLTRB(2.0, 0.0, 2.0, 0.0),
-                            backgroundColor:
-                                _getStatusChipColor(package['status']),
-                            label: Text(
+                          Container(
+                            decoration: BoxDecoration(
+                              color: _getStatusChipColor(package['status']),
+                              borderRadius:
+                                  BorderRadius.all(Radius.elliptical(20, 20)),
+                            ),
+                            padding: EdgeInsets.all(8),
+                            child: Text(
                               Casing.titleCase(package['status']),
                               style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],

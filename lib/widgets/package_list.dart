@@ -11,37 +11,28 @@ class PackageList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ListView(
-        children:
-            packages.map<Widget>((package) => PackageItem(package)).toList(),
+        children: packages
+            .map<Widget>((package) => PackageListItem(package))
+            .toList(),
       ),
     );
   }
 }
 
-class PackageItem extends StatelessWidget {
+class PackageListItem extends StatelessWidget {
   final package;
 
-  PackageItem(this.package);
+  PackageListItem(this.package);
 
   @override
   Widget build(BuildContext context) {
-    _getStatusChipColor(String status) {
-      switch (status) {
-        case 'GELIEFERT':
-          return Color(0xff868e96);
-        case 'IM_TRANSPORT':
-          return Color(0xffffc107);
-        case 'ERFASST':
-        case 'SORTIERT':
-          return Color(0xff28a745);
-      }
-    }
-
     return Card(
       child: InkWell(
           splashColor: Theme.of(context).primaryColor.withAlpha(30),
           onTap: () {
-            print('Card tapped.');
+            showDialog(
+                context: context,
+                builder: (context) => PackageDetailPopupDialog(this.package));
           },
           child: Padding(
             padding: const EdgeInsets.all(8),
@@ -82,21 +73,7 @@ class PackageItem extends StatelessWidget {
                             ],
                           ),
                           Spacer(),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: _getStatusChipColor(package['status']),
-                              borderRadius:
-                                  BorderRadius.all(Radius.elliptical(20, 20)),
-                            ),
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              Casing.titleCase(package['status']),
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
+                          PackageStatusChip(package['status']),
                         ],
                       ),
                       Text(
@@ -108,6 +85,129 @@ class PackageItem extends StatelessWidget {
               ],
             ),
           )),
+    );
+  }
+}
+
+class PackageDetailPopupDialog extends StatelessWidget {
+  final package;
+
+  PackageDetailPopupDialog(this.package);
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      title: Text("Package Detail #" + package['barcode']),
+      children: [
+        Center(
+          child: Column(
+            children: [
+              DetailRow('Tracking Number:', Text(package['barcode'])),
+              DetailRow('Order Number:', Text('N/A')), // TODO
+              DetailRow('Recipient Name:', Text(package['recipient']['name'])),
+              DetailRow('Email:', Text(package['recipient']['email'])),
+              DetailRow('Telephone:', Text(package['recipient']['telephone'])),
+              DetailRow('Building:', Text(package['recipient']['building'])),
+              DetailRow('Address:', Text(package['recipient']['fullAddress'])),
+              DetailRow(
+                  'Representative:', Text(package['representative']['name'])),
+              DetailRow('Sender:', Text(package['sender']['name'])),
+              DetailRow('Time Created:', Text(package['timeCreated'])),
+              DetailRow('Status:', PackageStatusChip(package['status'])),
+              ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children: [
+                  RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {},
+                    child: Text(
+                      'Deliver Package',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {},
+                    child: Text(
+                      'Not Deliverable',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class DetailRow extends StatelessWidget {
+  final String header;
+  final Widget content;
+
+  DetailRow(this.header, this.content);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(8, 4, 8, 4),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Container(
+              alignment: Alignment.centerRight,
+              child: Text(this.header,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          Expanded(
+            flex: 3,
+            child:
+                Container(alignment: Alignment.centerLeft, child: this.content),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PackageStatusChip extends StatelessWidget {
+  final String packageStatus;
+
+  PackageStatusChip(this.packageStatus);
+
+  Color _getStatusChipColor(String status) {
+    switch (status) {
+      case 'GELIEFERT':
+        return Color(0xff868e96);
+      case 'IM_TRANSPORT':
+        return Color(0xffffc107);
+      case 'ERFASST':
+      case 'SORTIERT':
+      default:
+        return Color(0xff28a745);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: _getStatusChipColor(this.packageStatus),
+        borderRadius: BorderRadius.all(Radius.elliptical(20, 20)),
+      ),
+      padding: EdgeInsets.all(6),
+      child: Text(
+        Casing.titleCase(this.packageStatus),
+        style: TextStyle(
+            fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+      ),
     );
   }
 }

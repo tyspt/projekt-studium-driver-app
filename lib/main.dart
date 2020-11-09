@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:projekt_studium_driver_app/models/package.dart';
-import 'package:projekt_studium_driver_app/services/package_data.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+
+import 'models/package.dart';
+import 'services/package_data.dart';
 import 'widgets/package_list.dart';
 
 void main() {
@@ -39,6 +44,53 @@ class _MyHomePageState extends State<MyHomePage> {
   final _outgoingPackages =
       PackageData.data.where((package) => package['type'] == Type.OUTBOUND);
 
+  String _scanBarcode = 'Unknown';
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> scanQR() async {
+    print('Scan QR called');
+    String barcodeScanRes;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", "Cancel", true, ScanMode.QR);
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      // _scanBarcode = barcodeScanRes;
+
+      if (RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes)) {
+        showDialog(
+            context: context,
+            builder: (context) =>
+                PackageDetailPopupDialog(_incomingPackages.last));
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) => SimpleDialog(
+                  title: Text('Starting handover process...'),
+                  children: [
+                    Center(
+                      child: Text('...'),
+                    )
+                  ],
+                ));
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: PackageList(
               _selectedIndex == 0 ? _incomingPackages : _outgoingPackages)),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () => scanQR(),
         tooltip: 'Scan Barcode / QR Code',
         child: Icon(Icons.camera_alt),
       ),

@@ -7,6 +7,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'models/package.dart';
 import 'services/package_data.dart';
 import 'widgets/package_list.dart';
+import 'widgets/handover.dart';
 
 void main() {
   runApp(MyApp());
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           "#ff6666", "Cancel", true, ScanMode.QR);
       print(barcodeScanRes);
     } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
+      barcodeScanRes = '';
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -71,23 +72,17 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       // _scanBarcode = barcodeScanRes;
 
-      if (RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes)) {
-        showDialog(
-            context: context,
-            builder: (context) =>
-                PackageDetailPopupDialog(_incomingPackages.last));
-      } else {
-        showDialog(
-            context: context,
-            builder: (context) => SimpleDialog(
-                  title: Text('Starting handover process...'),
-                  children: [
-                    Center(
-                      child: Text('...'),
-                    )
-                  ],
-                ));
+      if (barcodeScanRes.isEmpty || barcodeScanRes == '-1') {
+        return;
       }
+
+      RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes)
+          ? showDialog(
+              context: context,
+              builder: (_) => PackageDetailPopupDialog(_incomingPackages.last))
+          : showDialog(
+              context: context,
+              builder: (_) => StartHandOverConfirmationDialog(scanQR));
     });
   }
 

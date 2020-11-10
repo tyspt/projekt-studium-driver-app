@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  json_serializable: ^3.5.0
+  http: ^0.12.2
   dart_casing: ^1.0.1
   flutter_barcode_scanner: ^1.0.1
 

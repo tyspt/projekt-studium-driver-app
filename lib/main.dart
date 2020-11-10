@@ -6,8 +6,8 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 import 'models/package.dart';
 import 'services/package_data.dart';
-import 'widgets/package_list.dart';
 import 'widgets/handover.dart';
+import 'widgets/package_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -40,10 +40,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
-  final _incomingPackages =
-      PackageData.data.where((package) => package['type'] == PackageType.INBOUND);
-  final _outgoingPackages =
-      PackageData.data.where((package) => package['type'] == PackageType.OUTBOUND);
+  final _incomingPackages = PackageData.data
+      .where((package) => package['type'] == PackageType.INBOUND);
+  final _outgoingPackages = PackageData.data
+      .where((package) => package['type'] == PackageType.OUTBOUND);
 
   String _scanBarcode = 'Unknown';
 

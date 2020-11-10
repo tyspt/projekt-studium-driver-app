@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:projekt_studium_driver_app/utils/theme_color.dart';
 
 import 'models/package.dart';
 import 'services/package_data.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Continental Logistic Driver App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: generateMaterialColor(Color(0xFFFFA500)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Home Page'),
@@ -99,7 +100,10 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => scanQR(),
         tooltip: 'Scan Barcode / QR Code',
-        child: Icon(Icons.camera_alt),
+        child: IconTheme(
+          data: IconThemeData(color: Colors.white),
+          child: Icon(Icons.camera_alt),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

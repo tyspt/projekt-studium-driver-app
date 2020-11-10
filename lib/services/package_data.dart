@@ -24,7 +24,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'GELIEFERT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '2',
@@ -48,7 +48,7 @@ class PackageData {
         'name': 'BETTIE JONES',
       },
       'status': 'IM_TRANSPORT',
-      'type': Type.OUTBOUND,
+      'type': PackageType.OUTBOUND,
     },
     {
       'id': '3',
@@ -72,7 +72,7 @@ class PackageData {
         'name': 'GEORGE JUNIUS STINNEY',
       },
       'status': 'SORTIERT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '4',
@@ -96,7 +96,7 @@ class PackageData {
         'name': 'JOHN CRAWFORD',
       },
       'status': 'SORTIERT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '5',
@@ -120,7 +120,7 @@ class PackageData {
         'name': 'DANTE PARKER',
       },
       'status': 'GELIEFERT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '6',
@@ -144,7 +144,7 @@ class PackageData {
         'name': 'JANET WILSON',
       },
       'status': 'IM_TRANSPORT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '7',
@@ -168,7 +168,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'IM_TRANSPORT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '8',
@@ -192,7 +192,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'GELIEFERT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '9',
@@ -216,7 +216,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'GELIEFERT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '10',
@@ -240,7 +240,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'SORTIERT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '11',
@@ -264,7 +264,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'SORTIERT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '12',
@@ -288,7 +288,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'IM_TRANSPORT',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '13',
@@ -312,7 +312,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '14',
@@ -336,7 +336,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '15',
@@ -360,7 +360,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '16',
@@ -384,7 +384,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '17',
@@ -408,7 +408,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '18',
@@ -432,7 +432,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '19',
@@ -456,7 +456,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '20',
@@ -480,7 +480,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '21',
@@ -504,7 +504,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '22',
@@ -528,7 +528,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '23',
@@ -552,7 +552,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '24',
@@ -576,7 +576,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '25',
@@ -600,7 +600,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '26',
@@ -624,7 +624,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '27',
@@ -648,7 +648,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.INBOUND,
+      'type': PackageType.INBOUND,
     },
     {
       'id': '28',
@@ -672,7 +672,7 @@ class PackageData {
         'name': 'Max Mustermann',
       },
       'status': 'ERFASST',
-      'type': Type.OUTBOUND,
+      'type': PackageType.OUTBOUND,
     },
   ];
 }

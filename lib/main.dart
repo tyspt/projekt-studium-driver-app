@@ -41,9 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   final _incomingPackages =
-      PackageData.data.where((package) => package['type'] == Type.INBOUND);
+      PackageData.data.where((package) => package['type'] == PackageType.INBOUND);
   final _outgoingPackages =
-      PackageData.data.where((package) => package['type'] == Type.OUTBOUND);
+      PackageData.data.where((package) => package['type'] == PackageType.OUTBOUND);
 
   String _scanBarcode = 'Unknown';
 

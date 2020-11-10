@@ -1,32 +1,51 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:projekt_studium_driver_app/models/person.dart';
 
-@JsonSerializable(nullable: false)
 class Package {
   String id;
   String type;
   String barcode;
   String orderNumber;
   Person recipient;
-  Person representative;
   Person sender;
-  String timeCreated;
-  Status status;
+  Person representative;
+  String createdTimestamp;
+  String lastUpdatedTimestamp;
+  PackageStatus status;
+
+  Package(
+      {this.id,
+      this.type,
+      this.barcode,
+      this.orderNumber,
+      this.recipient, //TODO
+      this.sender, // TODO
+      this.representative, //TODO
+      this.createdTimestamp,
+      this.lastUpdatedTimestamp,
+      this.status});
+
+  factory Package.fromJson(Map<String, dynamic> json) {
+    return Package(
+      id: json['id'],
+      type: json['type'],
+      barcode: json['barcode'],
+      orderNumber: json['orderNumber'],
+      createdTimestamp: json['createdTimestamp'],
+      lastUpdatedTimestamp: json['lastUpdatedTimestamp'],
+      status: json['status'],
+    );
+  }
 }
 
-class Person {
-  String name;
-  String email;
-  String employeeId;
-  String telephone;
-  String building;
-  String fullAddress;
-}
+enum PackageType { INBOUND, OUTBOUND }
 
-enum Type { INBOUND, OUTBOUND }
-
-enum Status {
-  ERFASST,
-  SORTIERT,
-  IM_TRANSPORT,
-  GELIEFERT,
+enum PackageStatus {
+  CREATED,
+  IN_HANDOVER,
+  IN_TRANSPORT,
+  REATTEMPT_DELIVERY,
+  DELIVERED,
+  NOT_DELIVERABLE,
+  COLLECTED,
+  RECEIVED_BY_LOGISTIC_CENTER
 }

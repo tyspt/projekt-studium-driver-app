@@ -6,9 +6,9 @@ import 'package:projekt_studium_driver_app/models/building.dart';
 import '../env.dart';
 
 class BuildingService {
-  final String _baseUrl = environment['baseUrl'];
+  static final String _baseUrl = environment['baseUrl'];
 
-  Future<List<Building>> getData() async {
+  static Future<List<Building>> getData() async {
     final response = await http.get('$_baseUrl/buildings');
 
     if (response.statusCode == 200) {

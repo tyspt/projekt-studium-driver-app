@@ -6,9 +6,9 @@ import 'package:projekt_studium_driver_app/models/person.dart';
 import '../env.dart';
 
 class PersonService {
-  final String _baseUrl = environment['baseUrl'];
+  static final String _baseUrl = environment['baseUrl'];
 
-  Future<List<Person>> getData() async {
+  static Future<List<Person>> getData() async {
     final response = await http.get('$_baseUrl/persons');
 
     if (response.statusCode == 200) {

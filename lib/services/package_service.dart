@@ -6,9 +6,9 @@ import 'package:projekt_studium_driver_app/models/package.dart';
 import '../env.dart';
 
 class PackageService {
-  final String _baseUrl = environment['baseUrl'];
+  static final String _baseUrl = environment['baseUrl'];
 
-  Future<List<Package>> getData() async {
+  static Future<List<Package>> getData() async {
     final response = await http.get('$_baseUrl/packages');
 
     if (response.statusCode == 200) {
@@ -21,7 +21,7 @@ class PackageService {
     }
   }
 
-  Future<Package> getPackageByIdOrBarcode(String queryNumber) async {
+  static Future<Package> getPackageByIdOrBarcode(String queryNumber) async {
     final response = await http.get('$_baseUrl/packages/$queryNumber');
 
     if (response.statusCode == 200) {

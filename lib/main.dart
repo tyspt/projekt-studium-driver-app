@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:projekt_studium_driver_app/services/package_service.dart';
 
 import 'models/package.dart';
 import 'services/package_data.dart';
-import 'widgets/handover.dart';
 import 'widgets/package_list.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Continental Logistic Driver App',
+      title: 'Logistic Driver App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -40,9 +41,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
-  final _incomingPackages = PackageData.data
+  final _inboundPackages = PackageData.data
       .where((package) => package['type'] == PackageType.INBOUND);
-  final _outgoingPackages = PackageData.data
+  final _outboundPackages = PackageData.data
       .where((package) => package['type'] == PackageType.OUTBOUND);
 
   String _scanBarcode = 'Unknown';
@@ -76,13 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
         return;
       }
 
-      RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes)
-          ? showDialog(
-              context: context,
-              builder: (_) => PackageDetailPopupDialog(_incomingPackages.last))
-          : showDialog(
-              context: context,
-              builder: (_) => StartHandOverConfirmationDialog(scanQR));
+//      RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes)
+//          ? showDialog(
+//              context: context,
+//              builder: (_) => PackageDetailPopupDialog()
+//          : showDialog(
+//              context: context,
+//              builder: (_) => StartHandOverConfirmationDialog(scanQR));
     });
   }
 
@@ -91,11 +92,24 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            _selectedIndex == 0 ? 'Incoming Packages' : 'Outgoing Packages'),
+            _selectedIndex == 0 ? 'Inbound Packages' : 'Outbound Packages'),
       ),
       body: Center(
-          child: PackageList(
-              _selectedIndex == 0 ? _incomingPackages : _outgoingPackages)),
+          child: FutureBuilder<List<Package>>(
+        future: PackageService.getData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return PackageList(_selectedIndex == 0
+                ? snapshot.data
+                    .where((package) => package.type == PackageType.INBOUND)
+                : snapshot.data
+                    .where((package) => package.type == PackageType.OUTBOUND));
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          return CircularProgressIndicator();
+        },
+      )),
       floatingActionButton: FloatingActionButton(
         onPressed: () => scanQR(),
         tooltip: 'Scan Barcode / QR Code',
@@ -104,9 +118,9 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.get_app), title: Text('Incoming')),
+              icon: Icon(Icons.get_app), title: Text('Inbound')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.publish), title: Text('Outgoing')),
+              icon: Icon(Icons.publish), title: Text('Outbound')),
         ],
         currentIndex: _selectedIndex,
         onTap: (index) => setState(() {

@@ -1,6 +1,8 @@
 import 'package:dart_casing/dart_casing.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:projekt_studium_driver_app/models/package.dart';
 
 class PackageList extends StatelessWidget {
   final packages;
@@ -20,7 +22,7 @@ class PackageList extends StatelessWidget {
 }
 
 class PackageListItem extends StatelessWidget {
-  final package;
+  final Package package;
 
   PackageListItem(this.package);
 
@@ -41,7 +43,7 @@ class PackageListItem extends StatelessWidget {
                 // Left Avatar section
                 CircleAvatar(
                   backgroundColor: Theme.of(context).primaryColorLight,
-                  child: Text(package['recipient']['building']),
+                  child: Text(package.recipient.building.shortName),
                 ),
                 const SizedBox(width: 16),
                 // Right Text & Status section
@@ -56,7 +58,7 @@ class PackageListItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                Casing.titleCase(package['recipient']['name']),
+                                Casing.titleCase(package.recipient.name),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.0,
@@ -64,20 +66,20 @@ class PackageListItem extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                '#' + package['barcode'],
+                                '#' + package.barcode,
                               ),
-                              Text(package['timeCreated'],
+                              Text(package.createdTimestamp,
                                   textScaleFactor: 0.9,
                                   style: TextStyle(
                                       color: Colors.black.withOpacity(0.6))),
                             ],
                           ),
                           Spacer(),
-                          PackageStatusChip(package['status']),
+                          PackageStatusChip(package.status),
                         ],
                       ),
                       Text(
-                        package['recipient']['fullAddress'],
+                        package.recipient.fullAddress,
                       ),
                     ],
                   ),
@@ -90,30 +92,41 @@ class PackageListItem extends StatelessWidget {
 }
 
 class PackageDetailPopupDialog extends StatelessWidget {
-  final package;
+  final Package package;
 
   PackageDetailPopupDialog(this.package);
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: Text("Package Detail #" + package['barcode']),
+      title: Text("Package #" + package.id.toString()),
       children: [
         Center(
           child: Column(
             children: [
-              DetailRow('Tracking Number:', Text(package['barcode'])),
-              DetailRow('Order Number:', Text('N/A')), // TODO
-              DetailRow('Recipient Name:', Text(package['recipient']['name'])),
-              DetailRow('Email:', Text(package['recipient']['email'])),
-              DetailRow('Telephone:', Text(package['recipient']['telephone'])),
-              DetailRow('Building:', Text(package['recipient']['building'])),
-              DetailRow('Address:', Text(package['recipient']['fullAddress'])),
+              DetailRow('Tracking Number:', Text(package.barcode ?? 'N/A')),
+              DetailRow('Order Number:', Text(package.orderNumber ?? 'N/A')),
               DetailRow(
-                  'Representative:', Text(package['representative']['name'])),
-              DetailRow('Sender:', Text(package['sender']['name'])),
-              DetailRow('Time Created:', Text(package['timeCreated'])),
-              DetailRow('Status:', PackageStatusChip(package['status'])),
+                  'Type:',
+                  Text(Casing.titleCase(
+                      EnumToString.convertToString(package.type)))),
+              DetailRow(
+                  'Recipient Name:', Text(package.recipient.name ?? 'N/A')),
+              DetailRow('Email:', Text(package.recipient.email ?? 'N/A')),
+              DetailRow(
+                  'Telephone:', Text(package.recipient.telephone ?? 'N/A')),
+              DetailRow('Building:',
+                  Text(package.recipient.building.shortName ?? 'N/A')),
+              DetailRow(
+                  'Address:', Text(package.recipient.fullAddress ?? 'N/A')),
+              DetailRow('Representative:',
+                  Text(package.recipient.representative?.name ?? 'N/A')),
+              DetailRow('Sender:', Text(package.sender.name ?? 'N/A')),
+              DetailRow(
+                  'Time Created:', Text(package.createdTimestamp ?? 'N/A')),
+              DetailRow(
+                  'Last Updated:', Text(package.lastUpdatedTimestamp ?? 'N/A')),
+              DetailRow('Status:', PackageStatusChip(package.status)),
               ButtonBar(
                 alignment: MainAxisAlignment.center,
                 children: [
@@ -178,20 +191,26 @@ class DetailRow extends StatelessWidget {
 }
 
 class PackageStatusChip extends StatelessWidget {
-  final String packageStatus;
+  final PackageStatus status;
 
-  PackageStatusChip(this.packageStatus);
+  PackageStatusChip(this.status);
 
-  Color _getStatusChipColor(String status) {
+  Color _getStatusChipColor(PackageStatus status) {
     switch (status) {
-      case 'GELIEFERT':
-        return Color(0xff868e96);
-      case 'IM_TRANSPORT':
-        return Color(0xffffc107);
-      case 'ERFASST':
-      case 'SORTIERT':
+      case PackageStatus.CREATED:
+        return Color(0xff53da72);
+      case PackageStatus.IN_HANDOVER:
+        return Color(0xffd2b9ff);
+      case PackageStatus.IN_TRANSPORT:
+      case PackageStatus.REATTEMPT_DELIVERY:
+      case PackageStatus.COLLECTED:
+        return Color(0xffffd556);
+      case PackageStatus.DELIVERED:
+      case PackageStatus.RECEIVED_BY_LOGISTIC_CENTER:
+        return Color(0xffcccccc);
+      case PackageStatus.NOT_DELIVERABLE:
       default:
-        return Color(0xff28a745);
+        return Color(0xffff6473);
     }
   }
 
@@ -199,12 +218,12 @@ class PackageStatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: _getStatusChipColor(this.packageStatus),
+        color: _getStatusChipColor(this.status),
         borderRadius: BorderRadius.all(Radius.elliptical(20, 20)),
       ),
       padding: EdgeInsets.all(6),
       child: Text(
-        Casing.titleCase(this.packageStatus),
+        EnumToString.convertToString(this.status),
         style: TextStyle(
             fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
       ),

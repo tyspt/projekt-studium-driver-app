@@ -138,6 +138,7 @@ class PackageDetailPopupDialog extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
+                  SizedBox(width: 8),
                   RaisedButton(
                     color: Theme.of(context).primaryColor,
                     onPressed: () {},

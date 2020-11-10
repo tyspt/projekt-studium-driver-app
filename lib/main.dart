@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
+import 'package:projekt_studium_driver_app/widgets/handover.dart';
 
 import 'models/package.dart';
-import 'services/package_data.dart';
 import 'widgets/package_list.dart';
 
 void main() {
@@ -41,13 +41,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
-  final _inboundPackages = PackageData.data
-      .where((package) => package['type'] == PackageType.INBOUND);
-  final _outboundPackages = PackageData.data
-      .where((package) => package['type'] == PackageType.OUTBOUND);
-
-  String _scanBarcode = 'Unknown';
-
   @override
   void initState() {
     super.initState();
@@ -70,21 +63,18 @@ class _MyHomePageState extends State<MyHomePage> {
     // setState to update our non-existent appearance.
     if (!mounted) return;
 
-    setState(() {
-      // _scanBarcode = barcodeScanRes;
+    if (barcodeScanRes.isEmpty || barcodeScanRes == '-1') {
+      return;
+    }
 
-      if (barcodeScanRes.isEmpty || barcodeScanRes == '-1') {
-        return;
-      }
-
-//      RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes)
-//          ? showDialog(
-//              context: context,
-//              builder: (_) => PackageDetailPopupDialog()
-//          : showDialog(
-//              context: context,
-//              builder: (_) => StartHandOverConfirmationDialog(scanQR));
-    });
+    RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes)
+        ? PackageService.getPackageByIdOrBarcode(barcodeScanRes).then(
+            (package) => showDialog(
+                context: context,
+                builder: (_) => PackageDetailPopupDialog(package)))
+        : showDialog(
+            context: context,
+            builder: (_) => StartHandOverConfirmationDialog(scanQR));
   }
 
   @override

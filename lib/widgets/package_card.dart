@@ -3,23 +3,7 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:projekt_studium_driver_app/models/package.dart';
-
-class PackageList extends StatelessWidget {
-  final packages;
-
-  PackageList(this.packages);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        children: packages
-            .map<Widget>((package) => PackageListItem(package))
-            .toList(),
-      ),
-    );
-  }
-}
+import 'package:projekt_studium_driver_app/services/package_service.dart';
 
 class PackageListItem extends StatelessWidget {
   final Package package;
@@ -141,7 +125,10 @@ class PackageDetailPopupDialog extends StatelessWidget {
                   SizedBox(width: 8),
                   RaisedButton(
                     color: Theme.of(context).primaryColor,
-                    onPressed: () {},
+                    onPressed: () {
+                      PackageService.updatePackageStatus(
+                          package.id.toString(), PackageStatus.IN_HANDOVER);
+                    },
                     child: Text(
                       'Not Deliverable',
                       style: TextStyle(color: Colors.white),

@@ -8,7 +8,7 @@ import 'package:projekt_studium_driver_app/services/package_service.dart';
 import 'package:projekt_studium_driver_app/widgets/handover.dart';
 
 import 'models/package.dart';
-import 'widgets/package_list.dart';
+import 'widgets/package_card.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,12 +42,19 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   bool _isInHandoverMode =
       false; // Flag used to determine the behavior of QR scanner
-  Future<List<Package>> _packages;
+  List<Package> _packages = [];
 
   @override
   void initState() {
     super.initState();
-    _packages = PackageService.getData();
+    _loadPackages();
+  }
+
+  void _loadPackages() async {
+    final result = await PackageService.getData();
+    setState(() {
+      _packages = result;
+    });
   }
 
   Future<void> scanQR() async {
@@ -100,21 +107,16 @@ class _MyHomePageState extends State<MyHomePage> {
             _selectedIndex == 0 ? 'Inbound Packages' : 'Outbound Packages'),
       ),
       body: Center(
-          child: FutureBuilder<List<Package>>(
-        future: _packages,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return PackageList(_selectedIndex == 0
-                ? snapshot.data
-                    .where((package) => package.type == PackageType.INBOUND)
-                : snapshot.data
-                    .where((package) => package.type == PackageType.OUTBOUND));
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
-          return CircularProgressIndicator();
-        },
-      )),
+          child: _packages.length > 0
+              ? RefreshIndicator(
+                  onRefresh: () async => (await _loadPackages()),
+                  child: ListView(
+                    children: _packages
+                        .map<Widget>((package) => PackageListItem(package))
+                        .toList(),
+                  ),
+                )
+              : CircularProgressIndicator()),
       floatingActionButton: FloatingActionButton(
         onPressed: () => scanQR(),
         tooltip: 'Scan Barcode / QR Code',

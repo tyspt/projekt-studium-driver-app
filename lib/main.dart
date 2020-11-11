@@ -40,20 +40,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
+  bool _isInHandoverMode =
+      false; // Flag used to determine the behavior of QR scanner
+  Future<List<Package>> _packages;
 
   @override
   void initState() {
     super.initState();
+    _packages = PackageService.getData();
   }
 
   Future<void> scanQR() async {
-    print('Scan QR called');
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", "Cancel", true, ScanMode.QR);
-      print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = '';
     }
@@ -67,14 +69,27 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
 
-    RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes)
-        ? PackageService.getPackageByIdOrBarcode(barcodeScanRes).then(
-            (package) => showDialog(
-                context: context,
-                builder: (_) => PackageDetailPopupDialog(package)))
-        : showDialog(
+    final isNumber = RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes);
+
+    if (!_isInHandoverMode) {
+      if (isNumber) {
+        // Display package detail
+        final package =
+            await PackageService.getPackageByIdOrBarcode(barcodeScanRes);
+        showDialog(
+            context: context,
+            builder: (_) => PackageDetailPopupDialog(package));
+      } else {
+        // Start package handover mode
+        _isInHandoverMode = true; // TODO: exit hanover mode after finish
+        showDialog(
             context: context,
             builder: (_) => StartHandOverConfirmationDialog(scanQR));
+      }
+    } else {
+      await PackageService.updatePackageStatus(
+          barcodeScanRes, PackageStatus.IN_HANDOVER);
+    }
   }
 
   @override
@@ -86,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
           child: FutureBuilder<List<Package>>(
-        future: PackageService.getData(),
+        future: _packages,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return PackageList(_selectedIndex == 0

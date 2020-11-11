@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:projekt_studium_driver_app/models/person.dart';
 
-import '../env.dart';
+import 'base_service.dart';
 
-class PersonService {
-  static final String _baseUrl = environment['baseUrl'];
-
+class PersonService extends BaseService {
   static Future<List<Person>> getData() async {
-    final response = await http.get('$_baseUrl/persons');
+    final response = await http.get('${BaseService.baseUrl}/persons');
 
     if (response.statusCode == 200) {
       return (json.decode(response.body) as List)

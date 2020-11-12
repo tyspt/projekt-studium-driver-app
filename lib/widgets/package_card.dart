@@ -194,7 +194,7 @@ class PackageStatusChip extends StatelessWidget {
       case PackageStatus.COLLECTED:
         return Color(0xffffd556);
       case PackageStatus.DELIVERED:
-      case PackageStatus.RECEIVED_BY_LOGISTIC_CENTER:
+      case PackageStatus.RECEIVED_BY_LC:
         return Color(0xffcccccc);
       case PackageStatus.NOT_DELIVERABLE:
       default:

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
 import 'package:projekt_studium_driver_app/widgets/handover.dart';
+import 'package:projekt_studium_driver_app/widgets/loading.dart';
 
 import 'models/package.dart';
 import 'widgets/package_card.dart';
@@ -81,11 +82,15 @@ class _MyHomePageState extends State<MyHomePage> {
     if (!_isInHandoverMode) {
       if (isNumber) {
         // Display package detail
-        final package =
-            await PackageService.getPackageByIdOrBarcode(barcodeScanRes);
         showDialog(
             context: context,
-            builder: (_) => PackageDetailPopupDialog(package));
+            builder: (_) => FutureBuilder(
+                future: PackageService.getPackageByIdOrBarcode(barcodeScanRes),
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? PackageDetailPopupDialog(snapshot.data)
+                      : LoadingDialog();
+                }));
       } else {
         // Start package handover mode
         _isInHandoverMode = true; // TODO: exit hanover mode after finish

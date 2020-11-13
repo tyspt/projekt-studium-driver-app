@@ -15,7 +15,7 @@ class PersonService extends BaseService {
           .toList();
     } else {
       throw Exception(
-          'Failed to load persons, status code ${response.statusCode}');
+          'Failed to load persons, status code ${response.statusCode}: ${response.body}');
     }
   }
 }

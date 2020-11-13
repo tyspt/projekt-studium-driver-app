@@ -1,11 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:projekt_studium_driver_app/exceptions/HandoverClosedException.dart';
+import 'package:projekt_studium_driver_app/exceptions/IlleagalPackageStatusException.dart';
+import 'package:projekt_studium_driver_app/services/handover_service.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
-import 'package:projekt_studium_driver_app/widgets/handover.dart';
+import 'package:projekt_studium_driver_app/widgets/handover_dialogs.dart';
 import 'package:projekt_studium_driver_app/widgets/loading.dart';
 
 import 'models/package.dart';
@@ -41,9 +46,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  bool _isInHandoverMode =
-      false; // Flag used to determine the behavior of QR scanner
   List<Package> _packages = [];
+
+  // The uuid of the ongoing handover, which is also used to determine the behavior of QR scanner
+  String _currentHandoverUUID;
 
   @override
   void initState() {
@@ -71,37 +77,52 @@ class _MyHomePageState extends State<MyHomePage> {
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling
     // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    if (barcodeScanRes.isEmpty || barcodeScanRes == '-1') {
+    if (!mounted || barcodeScanRes.isEmpty || barcodeScanRes == '-1') {
+      _currentHandoverUUID = null;
       return;
     }
 
-    final isNumber = RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes);
+    final isPackageId = RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes);
 
-    if (!_isInHandoverMode) {
-      if (isNumber) {
-        // Display package detail
-        showDialog(
-            context: context,
-            builder: (_) => FutureBuilder(
-                future: PackageService.getPackageByIdOrBarcode(barcodeScanRes),
-                builder: (context, snapshot) {
-                  return snapshot.hasData
-                      ? PackageDetailPopupDialog(snapshot.data)
-                      : LoadingDialog();
-                }));
-      } else {
-        // Start package handover mode
-        _isInHandoverMode = true; // TODO: exit hanover mode after finish
-        showDialog(
-            context: context,
-            builder: (_) => StartHandOverConfirmationDialog(scanQR));
+    if (!isPackageId) {
+      // Start package handover mode
+      final resDecoded = json.decode(barcodeScanRes);
+      if (resDecoded['action'] == 'handover') {
+        _currentHandoverUUID = resDecoded['data'];
+
+        Loading.showLoading(context);
+        await HandoverService.createHandover(_currentHandoverUUID);
+        Navigator.pop(context);
+        HandoverDialogs.showHandOverConfirmationDialog(context, scanQR);
       }
-    } else {
-      await PackageService.updatePackageStatus(
-          barcodeScanRes, PackageStatus.IN_HANDOVER);
+      return;
     }
+
+    Loading.showLoading(context);
+    if (_currentHandoverUUID != null) {
+      // If in handover mode -> add scanned package to ongoing handover
+      try {
+        await HandoverService.addPackage(_currentHandoverUUID, barcodeScanRes);
+        Navigator.pop(context);
+        HandoverDialogs.showAddPackageFeedbackDialog(context, scanQR, true,
+            "Success", "Package has been successfully added to handover list.");
+        return;
+      } on IlleagalPackageStatusException catch (err) {
+        Navigator.pop(context);
+        HandoverDialogs.showAddPackageFeedbackDialog(context, scanQR, false,
+            "Failed to add package", "Error: " + err.toString());
+        return;
+      } on HandoverClosedException {
+        _currentHandoverUUID = null;
+      }
+    }
+
+    // Display package detail popup
+    final Package package =
+        await PackageService.getPackageByIdOrBarcode(barcodeScanRes);
+    Navigator.pop(context);
+    showDialog(
+        context: context, builder: (_) => PackageDetailPopupDialog(package));
   }
 
   @override
@@ -117,13 +138,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   onRefresh: () async => (await _loadPackages()),
                   child: ListView(
                     children: _packages
+                        .where((package) => _selectedIndex == 0
+                            ? package.type == PackageType.INBOUND
+                            : package.type == PackageType.OUTBOUND)
                         .map<Widget>((package) => PackageListItem(package))
                         .toList(),
                   ),
                 )
               : CircularProgressIndicator()),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => scanQR(),
+        onPressed: scanQR,
         tooltip: 'Scan Barcode / QR Code',
         child: Icon(Icons.camera_alt),
       ),

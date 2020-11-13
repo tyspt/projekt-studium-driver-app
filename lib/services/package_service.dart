@@ -15,7 +15,7 @@ class PackageService extends BaseService {
           .toList();
     } else {
       throw Exception(
-          'Failed to load packages, status code ${response.statusCode}');
+          'Failed to load packages, status code ${response.statusCode}: ${response.body}');
     }
   }
 
@@ -27,7 +27,7 @@ class PackageService extends BaseService {
       return Package.fromJson(json.decode(response.body));
     } else {
       throw Exception(
-          'Failed to load package $queryNumber, status code ${response.statusCode}');
+          'Failed to load package $queryNumber, status code ${response.statusCode}: ${response.body}');
     }
   }
 
@@ -46,7 +46,7 @@ class PackageService extends BaseService {
       // return Package.fromJson(json.decode(response.body));
     } else {
       throw Exception(
-          'Failed to update package $queryNumber, status code ${response.statusCode}');
+          'Failed to update package $queryNumber, status code ${response.statusCode}: ${response.body}');
     }
   }
 }

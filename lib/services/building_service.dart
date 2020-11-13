@@ -15,7 +15,7 @@ class BuildingService extends BaseService {
           .toList();
     } else {
       throw Exception(
-          'Failed to load buildings, status code ${response.statusCode}');
+          'Failed to load buildings, status code ${response.statusCode}: ${response.body}');
     }
   }
 }

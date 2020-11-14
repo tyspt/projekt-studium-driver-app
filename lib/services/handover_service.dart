@@ -35,9 +35,13 @@ class HandoverService extends BaseService {
 
   static Future<Handover> addPackage(
       String handoverUuid, String pkgIdOrBarcode) async {
+    Map<String, String> body = new Map();
+    body.putIfAbsent('idOrBarcode', () => pkgIdOrBarcode);
+
     final response = await http.put(
-        '${BaseService.baseUrl}/handovers/$handoverUuid/packages/$pkgIdOrBarcode',
-        headers: BaseService.headers);
+        '${BaseService.baseUrl}/handovers/$handoverUuid',
+        headers: BaseService.headers,
+        body: json.encode(body));
 
     print(response.statusCode);
 

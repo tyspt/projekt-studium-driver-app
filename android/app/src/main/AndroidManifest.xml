@@ -7,7 +7,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="projekt_studium_driver_app"
+        android:label="PJ Driver App"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

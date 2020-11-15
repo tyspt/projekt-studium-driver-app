@@ -1,7 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:projekt_studium_driver_app/models/package.dart';
+
+import './models/package.dart';
 
 /// A state model class that follows provider pattern for internal package state management, read this guide
 /// for more details: https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple

@@ -1,8 +1,12 @@
+import 'package:cron/cron.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:projekt_studium_driver_app/package_state.dart';
-import 'package:projekt_studium_driver_app/widgets/home_page.dart';
+import 'package:projekt_studium_driver_app/services/driver_service.dart';
 import 'package:provider/provider.dart';
+
+import './env.dart';
+import './package_state.dart';
+import './widgets/homepage.dart';
 
 void main() {
   runApp(
@@ -11,6 +15,14 @@ void main() {
       child: MyApp(),
     ),
   );
+
+  // Scheduled job to upload driver location
+  final cron = Cron();
+  cron.schedule(Schedule.parse(environment['locationUpdateCron']), () async {
+    print('uploading driver location...');
+    await DriverService.updateLocation(12, 12);
+    print('done...');
+  });
 }
 
 class MyApp extends StatelessWidget {

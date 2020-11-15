@@ -10,8 +10,9 @@ import 'package:projekt_studium_driver_app/exceptions/HandoverClosedException.da
 import 'package:projekt_studium_driver_app/exceptions/IlleagalPackageStatusException.dart';
 import 'package:projekt_studium_driver_app/services/handover_service.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
-import 'package:projekt_studium_driver_app/widgets/handover_dialogs.dart';
+import 'package:projekt_studium_driver_app/widgets/feedback_dialog.dart';
 import 'package:projekt_studium_driver_app/widgets/loading.dart';
+import 'package:projekt_studium_driver_app/widgets/package_detail.dart';
 
 import 'models/package.dart';
 import 'widgets/package_card.dart';
@@ -121,7 +122,8 @@ class _MyHomePageState extends State<MyHomePage> {
         await PackageService.getPackageByIdOrBarcode(barcodeScanRes);
     Navigator.pop(context);
     showDialog(
-        context: context, builder: (_) => PackageDetailPopupDialog(package));
+        context: context,
+        builder: (_) => PackageDetailPopupDialog(package, scanQR));
   }
 
   @override
@@ -140,7 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         .where((package) => _selectedIndex == 0
                             ? package.type == PackageType.INBOUND
                             : package.type == PackageType.OUTBOUND)
-                        .map<Widget>((package) => PackageListItem(package))
+                        .map<Widget>(
+                            (package) => PackageListItem(package, scanQR))
                         .toList(),
                   ),
                 )

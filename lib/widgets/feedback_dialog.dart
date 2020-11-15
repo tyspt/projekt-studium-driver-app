@@ -1,5 +1,36 @@
 import 'package:flutter/material.dart';
 
+class FeedbackDialogContent extends StatelessWidget {
+  final bool _success;
+  final String _message;
+
+  FeedbackDialogContent(this._success, this._message);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            _success ? Icons.check_circle_outline : Icons.error_outline,
+            size: 60,
+            color: _success ? Colors.green.shade400 : Colors.red.shade400,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+            child: Text(
+              _message,
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class HandoverDialogs {
   static void showHandOverConfirmationDialog(
       BuildContext context, Function scanQRCallback) {
@@ -29,29 +60,7 @@ class HandoverDialogs {
         context: context,
         builder: (_) => AlertDialog(
               title: Text(title),
-              content: Container(
-                padding: EdgeInsets.only(top: 20),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      success
-                          ? Icons.check_circle_outline
-                          : Icons.error_outline,
-                      size: 60,
-                      color:
-                          success ? Colors.green.shade400 : Colors.red.shade400,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
-                      child: Text(
-                        message,
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              content: FeedbackDialogContent(success, message),
               actions: [
                 FlatButton(
                   onPressed: () {

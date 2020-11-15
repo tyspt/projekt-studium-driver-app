@@ -14,6 +14,14 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
-      - run: flutter pub get
-      - run: flutter test
-      - run: flutter build apk
+      - name: Install Dependencies
+          run: flutter pub get
+      - name: Test
+          run: flutter test
+      - name: Build
+          run: flutter build apk
+      - name: Archive Build Artifact
+          uses: actions/upload-artifact@master
+          with:
+              name: build
+              path: build

@@ -3,8 +3,8 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:projekt_studium_driver_app/models/package.dart';
 
-/// This is a state model class that follows provider pattern for internal state management,
-/// which follows this guide: https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple
+/// A state model class that follows provider pattern for internal package state management, read this guide
+/// for more details: https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple
 class PackageModel extends ChangeNotifier {
   /// Internal, private state of the cart.
   final List<Package> _packages = [];

@@ -23,6 +23,6 @@ jobs:
       - name: Archive Build Artifact
         uses: actions/upload-artifact@master
         with:
-            name: build
+            name: projekt-studium-driver-app
             path: build/app/outputs/flutter-apk/app-release.apk
 

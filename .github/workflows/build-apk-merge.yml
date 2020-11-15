@@ -24,4 +24,5 @@ jobs:
         uses: actions/upload-artifact@master
         with:
             name: build
-            path: build
+            path: build/app/outputs/flutter-apk/app-release.apk
+

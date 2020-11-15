@@ -29,7 +29,7 @@ class HandoverDialogs {
         context: context,
         builder: (_) => AlertDialog(
               title: Text(title),
-              content: FeedbackDialogContent(success, message),
+              content: FeedbackDialogContentWidget(success, message),
               actions: [
                 FlatButton(
                   onPressed: () {
@@ -45,11 +45,26 @@ class HandoverDialogs {
   }
 }
 
-class FeedbackDialogContent extends StatelessWidget {
+class LoadingDialog {
+  static void showLoading(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) => SimpleDialog(
+              children: [
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ],
+            ));
+  }
+}
+
+/// A reusable widget that contains a success/fail icon and message on a dialog
+class FeedbackDialogContentWidget extends StatelessWidget {
   final bool _success;
   final String _message;
 
-  FeedbackDialogContent(this._success, this._message);
+  FeedbackDialogContentWidget(this._success, this._message);
 
   @override
   Widget build(BuildContext context) {
@@ -73,19 +88,5 @@ class FeedbackDialogContent extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class LoadingDialog {
-  static void showLoading(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (_) => SimpleDialog(
-              children: [
-                Center(
-                  child: CircularProgressIndicator(),
-                )
-              ],
-            ));
   }
 }

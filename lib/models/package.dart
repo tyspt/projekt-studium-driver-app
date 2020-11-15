@@ -40,6 +40,14 @@ class Package {
   String toString() {
     return 'Package{id: $id, type: $type, barcode: $barcode, orderNumber: $orderNumber, recipient: $recipient, sender: $sender, createdTimestamp: $createdTimestamp, lastUpdatedTimestamp: $lastUpdatedTimestamp, status: $status}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Package && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 PackageStatus packageStatusFromJson(String strValue) {

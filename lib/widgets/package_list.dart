@@ -31,12 +31,7 @@ class PackageListItem extends StatelessWidget {
     return Card(
       child: InkWell(
           splashColor: Theme.of(context).primaryColor.withAlpha(30),
-          onTap: () {
-            showDialog(
-                context: context,
-                builder: (context) =>
-                    PackageDetailPopupDialog(this._package, _scanQRFn));
-          },
+          onTap: () => showPackageDetailDialog(context, _package, _scanQRFn),
           child: Padding(
             padding: const EdgeInsets.all(8),
             child: Row(

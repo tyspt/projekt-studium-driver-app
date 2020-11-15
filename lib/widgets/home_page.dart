@@ -99,9 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final Package package =
         await PackageService.getPackageByIdOrBarcode(barcodeScanRes);
     Navigator.pop(context);
-    showDialog(
-        context: context,
-        builder: (_) => PackageDetailPopupDialog(package, scanQR));
+    showPackageDetailDialog(context, package, scanQR);
   }
 
   @override

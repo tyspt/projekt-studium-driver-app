@@ -9,53 +9,64 @@ import 'package:provider/provider.dart';
 
 import '../package_state.dart';
 
-class PackageDetailPopupDialog extends StatefulWidget {
+void showPackageDetailDialog(
+    BuildContext context, Package package, Function scanQR) {
+  Provider.of<PackageModel>(context, listen: false).selectAsActive(package);
+  showDialog(
+      context: context,
+      builder: (_) => Consumer<PackageModel>(
+            builder: (context, model, child) {
+              return PackageDetailPopupDialog(model.activePackage, scanQR);
+            },
+          ));
+}
+
+class PackageDetailPopupDialog extends StatelessWidget {
   final Package _package;
   final Function _scanQRFn;
 
   PackageDetailPopupDialog(this._package, this._scanQRFn);
 
-  @override
-  _PackageDetailPopupDialogState createState() =>
-      _PackageDetailPopupDialogState();
-}
-
-class _PackageDetailPopupDialogState extends State<PackageDetailPopupDialog> {
-  List<Widget> actions(BuildContext context) {
+  /// List of buttons that can be performed on an inbound package
+  List<Widget> _inboundActions(BuildContext context) {
     final List<Widget> allowedActions = [];
-    if (widget._package.type == PackageType.INBOUND) {
-      switch (widget._package.status) {
-        case PackageStatus.CREATED:
-          allowedActions.add(PackageDetailActionButton(
-              "Start Handover Process\n(Scan QR)", widget._scanQRFn));
-          break;
-        case PackageStatus.IN_TRANSPORT:
-          allowedActions.add(PackageDetailActionButton("Deliver Package"));
-          allowedActions.add(PackageDetailActionButton("Not Deliverable"));
-          break;
-      }
-    } else {
-      switch (widget._package.status) {
-        case PackageStatus.CREATED:
-          allowedActions.add(PackageDetailActionButton(
-              'Collect Package', () => collectPackage(context)));
-          break;
-      }
+    switch (_package.status) {
+      case PackageStatus.CREATED:
+        allowedActions.add(PackageDetailActionButton(
+            "Start Handover Process\n(Scan QR)", _scanQRFn));
+        break;
+      case PackageStatus.IN_TRANSPORT:
+        allowedActions.add(PackageDetailActionButton("Deliver Package"));
+        allowedActions.add(PackageDetailActionButton("Not Deliverable"));
+        break;
     }
     return allowedActions;
   }
 
-  Future<void> collectPackage(BuildContext context) async {
+  /// List of buttons that can be performed on an outbound package
+  List<Widget> _outboundActions(BuildContext context) {
+    final List<Widget> allowedActions = [];
+    switch (_package.status) {
+      case PackageStatus.CREATED:
+        allowedActions.add(PackageDetailActionButton(
+            'Collect Package', () => this._collectPackage(context)));
+        break;
+      case PackageStatus.IN_TRANSPORT:
+        allowedActions.add(PackageDetailActionButton(
+            "Start Handover Process\n(Scan QR)", _scanQRFn));
+        break;
+    }
+    return allowedActions;
+  }
+
+  Future<void> _collectPackage(BuildContext context) async {
     showLoading(context);
     try {
-      await PackageService.updatePackageStatus(
-          widget._package.id.toString(), PackageStatus.IN_TRANSPORT);
+      final updatedPackage = await PackageService.updatePackageStatus(
+          _package.id.toString(), PackageStatus.IN_TRANSPORT);
       Navigator.pop(context);
-      setState(() {
-        widget._package.status = PackageStatus.IN_TRANSPORT;
-        Provider.of<PackageModel>(context, listen: false)
-            .updateOne(widget._package);
-      });
+      Provider.of<PackageModel>(context, listen: false)
+          .updateActivePackageData(updatedPackage);
       showCollectPackageResultDialog(
           context, true, "Success", "Package has been successfully collected.");
     } on Exception catch (err) {
@@ -68,7 +79,7 @@ class _PackageDetailPopupDialogState extends State<PackageDetailPopupDialog> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      title: Text("Package #" + widget._package.id.toString()),
+      title: Text("Package #" + _package.id.toString()),
       children: [
         Divider(),
         Padding(
@@ -78,34 +89,31 @@ class _PackageDetailPopupDialogState extends State<PackageDetailPopupDialog> {
               DetailRow(
                   'Type:',
                   Text(Casing.titleCase(
-                      EnumToString.convertToString(widget._package.type)))),
+                      EnumToString.convertToString(_package.type)))),
+              DetailRow('Tracking Number:', Text(_package.barcode ?? 'N/A')),
+              DetailRow('Order Number:', Text(_package.orderNumber ?? 'N/A')),
               DetailRow(
-                  'Tracking Number:', Text(widget._package.barcode ?? 'N/A')),
+                  'Recipient Name:', Text(_package.recipient.name ?? 'N/A')),
+              DetailRow('Email:', Text(_package.recipient.email ?? 'N/A')),
               DetailRow(
-                  'Order Number:', Text(widget._package.orderNumber ?? 'N/A')),
-              DetailRow('Recipient Name:',
-                  Text(widget._package.recipient.name ?? 'N/A')),
-              DetailRow(
-                  'Email:', Text(widget._package.recipient.email ?? 'N/A')),
-              DetailRow('Telephone:',
-                  Text(widget._package.recipient.telephone ?? 'N/A')),
+                  'Telephone:', Text(_package.recipient.telephone ?? 'N/A')),
               DetailRow('Building:',
-                  Text(widget._package.recipient.building.shortName ?? 'N/A')),
-              DetailRow('Address:',
-                  Text(widget._package.recipient.fullAddress ?? 'N/A')),
+                  Text(_package.recipient.building.shortName ?? 'N/A')),
               DetailRow(
-                  'Representative:',
-                  Text(
-                      widget._package.recipient.representative?.name ?? 'N/A')),
-              DetailRow('Sender:', Text(widget._package.sender.name ?? 'N/A')),
-              DetailRow('Time Created:',
-                  Text(widget._package.createdTimestamp ?? 'N/A')),
+                  'Address:', Text(_package.recipient.fullAddress ?? 'N/A')),
+              DetailRow('Representative:',
+                  Text(_package.recipient.representative?.name ?? 'N/A')),
+              DetailRow('Sender:', Text(_package.sender.name ?? 'N/A')),
+              DetailRow(
+                  'Time Created:', Text(_package.createdTimestamp ?? 'N/A')),
               DetailRow('Last Updated:',
-                  Text(widget._package.lastUpdatedTimestamp ?? 'N/A')),
-              DetailRow('Status:', PackageStatusChip(widget._package.status)),
+                  Text(_package.lastUpdatedTimestamp ?? 'N/A')),
+              DetailRow('Status:', PackageStatusChip(_package.status)),
               ButtonBar(
                 alignment: MainAxisAlignment.center,
-                children: actions(context),
+                children: _package.type == PackageType.INBOUND
+                    ? _inboundActions(context)
+                    : _outboundActions(context),
               ),
             ],
           ),

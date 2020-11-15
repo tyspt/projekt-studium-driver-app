@@ -15,13 +15,13 @@ jobs:
         with:
           channel: 'stable'
       - name: Install Dependencies
-          run: flutter pub get
+        run: flutter pub get
       - name: Test
-          run: flutter test
+        run: flutter test
       - name: Build
-          run: flutter build apk
+        run: flutter build apk
       - name: Archive Build Artifact
-          uses: actions/upload-artifact@master
-          with:
-              name: build
-              path: build
+        uses: actions/upload-artifact@master
+        with:
+            name: build
+            path: build

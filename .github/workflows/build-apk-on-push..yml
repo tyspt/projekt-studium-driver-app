@@ -1,4 +1,4 @@
-name: Build apk on merge
+name: Build
 'on':
   push:
     branches:

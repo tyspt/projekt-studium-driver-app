@@ -109,10 +109,10 @@ class _PackageDetailPopupDialogState extends State<PackageDetailPopupDialog> {
 }
 
 class DetailRow extends StatelessWidget {
-  final String header;
-  final Widget content;
+  final String _header;
+  final Widget _content;
 
-  DetailRow(this.header, this.content);
+  DetailRow(this._header, this._content);
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +124,7 @@ class DetailRow extends StatelessWidget {
             flex: 2,
             child: Container(
               alignment: Alignment.centerRight,
-              child: Text(this.header,
+              child: Text(this._header,
                   style: const TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
@@ -133,8 +133,8 @@ class DetailRow extends StatelessWidget {
           ),
           Expanded(
             flex: 3,
-            child:
-                Container(alignment: Alignment.centerLeft, child: this.content),
+            child: Container(
+                alignment: Alignment.centerLeft, child: this._content),
           ),
         ],
       ),

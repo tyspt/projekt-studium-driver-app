@@ -6,10 +6,10 @@ import 'package:projekt_studium_driver_app/models/package.dart';
 import 'package:projekt_studium_driver_app/widgets/package_detail.dart';
 
 class PackageListItem extends StatelessWidget {
-  final Package package;
-  final Function scanQRFn;
+  final Package _package;
+  final Function _scanQRFn;
 
-  PackageListItem(this.package, this.scanQRFn);
+  PackageListItem(this._package, this._scanQRFn);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class PackageListItem extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (context) =>
-                    PackageDetailPopupDialog(this.package, scanQRFn));
+                    PackageDetailPopupDialog(this._package, _scanQRFn));
           },
           child: Padding(
             padding: const EdgeInsets.all(8),
@@ -29,7 +29,7 @@ class PackageListItem extends StatelessWidget {
                 // Left Avatar section
                 CircleAvatar(
                   backgroundColor: Theme.of(context).primaryColorLight,
-                  child: Text(package.recipient.building.shortName),
+                  child: Text(_package.recipient.building.shortName),
                 ),
                 const SizedBox(width: 16),
                 // Right Text & Status section
@@ -44,7 +44,7 @@ class PackageListItem extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                Casing.titleCase(package.recipient.name),
+                                Casing.titleCase(_package.recipient.name),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.0,
@@ -52,20 +52,20 @@ class PackageListItem extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                '#' + package.barcode,
+                                '#' + _package.barcode,
                               ),
-                              Text(package.createdTimestamp,
+                              Text(_package.createdTimestamp,
                                   textScaleFactor: 0.9,
                                   style: TextStyle(
                                       color: Colors.black.withOpacity(0.6))),
                             ],
                           ),
                           Spacer(),
-                          PackageStatusChip(package.status),
+                          PackageStatusChip(_package.status),
                         ],
                       ),
                       Text(
-                        package.recipient.fullAddress,
+                        _package.recipient.fullAddress,
                       ),
                     ],
                   ),
@@ -78,9 +78,9 @@ class PackageListItem extends StatelessWidget {
 }
 
 class PackageStatusChip extends StatelessWidget {
-  final PackageStatus status;
+  final PackageStatus _status;
 
-  PackageStatusChip(this.status);
+  PackageStatusChip(this._status);
 
   Color _getStatusChipColor(PackageStatus status) {
     switch (status) {
@@ -105,12 +105,12 @@ class PackageStatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: _getStatusChipColor(this.status),
+        color: _getStatusChipColor(this._status),
         borderRadius: BorderRadius.all(Radius.elliptical(20, 20)),
       ),
       padding: EdgeInsets.all(6),
       child: Text(
-        EnumToString.convertToString(this.status),
+        EnumToString.convertToString(this._status),
         style: TextStyle(
             fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
       ),

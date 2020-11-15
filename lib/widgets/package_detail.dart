@@ -5,6 +5,9 @@ import 'package:projekt_studium_driver_app/models/package.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
 import 'package:projekt_studium_driver_app/widgets/feedback_dialog.dart';
 import 'package:projekt_studium_driver_app/widgets/package_list.dart';
+import 'package:provider/provider.dart';
+
+import '../package_state.dart';
 
 class PackageDetailPopupDialog extends StatefulWidget {
   final Package _package;
@@ -35,21 +38,23 @@ class _PackageDetailPopupDialogState extends State<PackageDetailPopupDialog> {
       switch (widget._package.status) {
         case PackageStatus.CREATED:
           allowedActions.add(PackageDetailActionButton(
-              'Collect Package', () => updatePackageStatus(context)));
+              'Collect Package', () => collectPackage(context)));
           break;
       }
     }
     return allowedActions;
   }
 
-  Future<void> updatePackageStatus(BuildContext context) async {
+  Future<void> collectPackage(BuildContext context) async {
     showLoading(context);
     try {
       await PackageService.updatePackageStatus(
-          widget._package.id.toString(), PackageStatus.COLLECTED);
+          widget._package.id.toString(), PackageStatus.IN_TRANSPORT);
       Navigator.pop(context);
       setState(() {
-        widget._package.status = PackageStatus.COLLECTED;
+        widget._package.status = PackageStatus.IN_TRANSPORT;
+        Provider.of<PackageModel>(context, listen: false)
+            .updateOne(widget._package);
       });
       showCollectPackageResultDialog(
           context, true, "Success", "Package has been successfully collected.");

@@ -6,10 +6,12 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:projekt_studium_driver_app/exceptions/HandoverClosedException.dart';
 import 'package:projekt_studium_driver_app/exceptions/IlleagalPackageStatusException.dart';
 import 'package:projekt_studium_driver_app/models/package.dart';
+import 'package:projekt_studium_driver_app/package_state.dart';
 import 'package:projekt_studium_driver_app/services/handover_service.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
 import 'package:projekt_studium_driver_app/widgets/package_detail.dart';
 import 'package:projekt_studium_driver_app/widgets/package_list.dart';
+import 'package:provider/provider.dart';
 
 import 'feedback_dialog.dart';
 
@@ -23,8 +25,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // Index of the bottom navigator tab that is currently selected
   int _selectedIndex = 0;
-  List<Package> _packages = [];
 
   // The uuid of the ongoing handover, which is also used to determine the behavior of QR scanner
   String _currentHandoverUUID;
@@ -37,9 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _loadPackages() async {
     final result = await PackageService.getData();
-    setState(() {
-      _packages = result;
-    });
+    Provider.of<PackageModel>(context, listen: false).reloadAll(result);
   }
 
   Future<void> scanQR() async {
@@ -59,9 +59,10 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
 
-    final isPackageId = RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes);
+    // If scan result is a number, it would be recognized as the id or barcode of a package
+    final isPackageIdOrBarcode = RegExp(r'^-?[0-9]+$').hasMatch(barcodeScanRes);
 
-    if (!isPackageId) {
+    if (!isPackageIdOrBarcode) {
       // Start package handover mode
       final resDecoded = json.decode(barcodeScanRes);
       if (resDecoded['action'] == 'handover') {
@@ -111,20 +112,20 @@ class _MyHomePageState extends State<MyHomePage> {
             _selectedIndex == 0 ? 'Inbound Packages' : 'Outbound Packages'),
       ),
       body: Center(
-          child: _packages.length > 0
-              ? RefreshIndicator(
-                  onRefresh: () async => (await _loadPackages()),
-                  child: ListView(
-                    children: _packages
-                        .where((package) => _selectedIndex == 0
-                            ? package.type == PackageType.INBOUND
-                            : package.type == PackageType.OUTBOUND)
-                        .map<Widget>(
-                            (package) => PackageListItem(package, scanQR))
-                        .toList(),
-                  ),
-                )
-              : CircularProgressIndicator()),
+        child: Consumer<PackageModel>(
+          builder: (context, model, child) {
+            return model.packages.length > 0
+                ? RefreshIndicator(
+                    onRefresh: () async => (await _loadPackages()),
+                    child: PackageList(
+                        _selectedIndex == 0
+                            ? model.inboundPackages
+                            : model.outboundPackages,
+                        scanQR))
+                : CircularProgressIndicator();
+          },
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: scanQR,
         tooltip: 'Scan Barcode / QR Code',

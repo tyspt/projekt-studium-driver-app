@@ -5,6 +5,21 @@ import 'package:flutter/widgets.dart';
 import 'package:projekt_studium_driver_app/models/package.dart';
 import 'package:projekt_studium_driver_app/widgets/package_detail.dart';
 
+class PackageList extends StatelessWidget {
+  final List<Package> _packages;
+  final Function _scanQRFn;
+
+  PackageList(this._packages, this._scanQRFn);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+        children: _packages
+            .map<Widget>((package) => PackageListItem(package, _scanQRFn))
+            .toList());
+  }
+}
+
 class PackageListItem extends StatelessWidget {
   final Package _package;
   final Function _scanQRFn;
@@ -90,7 +105,6 @@ class PackageStatusChip extends StatelessWidget {
         return Color(0xffd2b9ff);
       case PackageStatus.IN_TRANSPORT:
       case PackageStatus.REATTEMPT_DELIVERY:
-      case PackageStatus.COLLECTED:
         return Color(0xffffd556);
       case PackageStatus.DELIVERED:
       case PackageStatus.RECEIVED_BY_LC:

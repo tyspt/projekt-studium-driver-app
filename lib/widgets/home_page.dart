@@ -8,8 +8,8 @@ import 'package:projekt_studium_driver_app/exceptions/IlleagalPackageStatusExcep
 import 'package:projekt_studium_driver_app/models/package.dart';
 import 'package:projekt_studium_driver_app/services/handover_service.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
-import 'package:projekt_studium_driver_app/widgets/package_card.dart';
 import 'package:projekt_studium_driver_app/widgets/package_detail.dart';
+import 'package:projekt_studium_driver_app/widgets/package_list.dart';
 
 import 'feedback_dialog.dart';
 

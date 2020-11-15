@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:projekt_studium_driver_app/models/package.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
 import 'package:projekt_studium_driver_app/widgets/feedback_dialog.dart';
-import 'package:projekt_studium_driver_app/widgets/package_card.dart';
+import 'package:projekt_studium_driver_app/widgets/package_list.dart';
 
 class PackageDetailPopupDialog extends StatefulWidget {
   final Package _package;
@@ -86,8 +86,10 @@ class _PackageDetailPopupDialogState extends State<PackageDetailPopupDialog> {
                   Text(widget._package.recipient.building.shortName ?? 'N/A')),
               DetailRow('Address:',
                   Text(widget._package.recipient.fullAddress ?? 'N/A')),
-              DetailRow('Representative:',
-                  Text(widget._package.recipient.representative?.name ?? 'N/A')),
+              DetailRow(
+                  'Representative:',
+                  Text(
+                      widget._package.recipient.representative?.name ?? 'N/A')),
               DetailRow('Sender:', Text(widget._package.sender.name ?? 'N/A')),
               DetailRow('Time Created:',
                   Text(widget._package.createdTimestamp ?? 'N/A')),

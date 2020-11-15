@@ -11,7 +11,6 @@ import 'package:projekt_studium_driver_app/exceptions/IlleagalPackageStatusExcep
 import 'package:projekt_studium_driver_app/services/handover_service.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
 import 'package:projekt_studium_driver_app/widgets/feedback_dialog.dart';
-import 'package:projekt_studium_driver_app/widgets/loading.dart';
 import 'package:projekt_studium_driver_app/widgets/package_detail.dart';
 
 import 'models/package.dart';
@@ -90,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if (resDecoded['action'] == 'handover') {
         _currentHandoverUUID = resDecoded['data'];
 
-        Loading.showLoading(context);
+        LoadingDialog.showLoading(context);
         await HandoverService.createHandover(_currentHandoverUUID);
         Navigator.pop(context);
         HandoverDialogs.showHandOverConfirmationDialog(context, scanQR);
@@ -98,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
 
-    Loading.showLoading(context);
+    LoadingDialog.showLoading(context);
     if (_currentHandoverUUID != null) {
       // If in handover mode -> add scanned package to ongoing handover
       try {

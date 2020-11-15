@@ -1,36 +1,5 @@
 import 'package:flutter/material.dart';
 
-class FeedbackDialogContent extends StatelessWidget {
-  final bool _success;
-  final String _message;
-
-  FeedbackDialogContent(this._success, this._message);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 20),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            _success ? Icons.check_circle_outline : Icons.error_outline,
-            size: 60,
-            color: _success ? Colors.green.shade400 : Colors.red.shade400,
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
-            child: Text(
-              _message,
-              textAlign: TextAlign.center,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
 class HandoverDialogs {
   static void showHandOverConfirmationDialog(
       BuildContext context, Function scanQRCallback) {
@@ -71,6 +40,51 @@ class HandoverDialogs {
                     'Scan Next',
                   ),
                 ),
+              ],
+            ));
+  }
+}
+
+class FeedbackDialogContent extends StatelessWidget {
+  final bool _success;
+  final String _message;
+
+  FeedbackDialogContent(this._success, this._message);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(top: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            _success ? Icons.check_circle_outline : Icons.error_outline,
+            size: 60,
+            color: _success ? Colors.green.shade400 : Colors.red.shade400,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+            child: Text(
+              _message,
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class LoadingDialog {
+  static void showLoading(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) => SimpleDialog(
+              children: [
+                Center(
+                  child: CircularProgressIndicator(),
+                )
               ],
             ));
   }

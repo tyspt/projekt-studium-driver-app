@@ -1,62 +1,72 @@
 import 'package:flutter/material.dart';
 
-class HandoverDialogs {
-  static void showHandOverConfirmationDialog(
-      BuildContext context, Function scanQRCallback) {
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              title: Text('Starting handover process'),
-              content: Text(
-                  'Please now scan each package that you are going to take.'),
-              actions: [
-                FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    scanQRCallback();
-                  },
-                  child: Text(
-                    'OK',
-                  ),
-                ),
-              ],
-            ));
-  }
-
-  static void showAddPackageFeedbackDialog(BuildContext context,
-      Function scanQRCallback, bool success, String title, String message) {
-    showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              title: Text(title),
-              content: FeedbackDialogContentWidget(success, message),
-              actions: [
-                FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    scanQRCallback();
-                  },
-                  child: Text(
-                    'Scan Next',
-                  ),
-                ),
-              ],
-            ));
-  }
+void showHandOverConfirmationDialog(
+    BuildContext context, Function scanQRCallback) {
+  showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+            title: Text('Starting handover process'),
+            content: Text(
+                'Please now scan each package that you are going to take.'),
+            actions: [
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  scanQRCallback();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ));
 }
 
-class LoadingDialog {
-  static void showLoading(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (_) => SimpleDialog(
-              children: [
-                Center(
-                  child: CircularProgressIndicator(),
-                )
-              ],
-            ));
-  }
+void showAddPackageFeedbackDialog(BuildContext context, Function scanQRCallback,
+    bool success, String title, String message) {
+  showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+            title: Text(title),
+            content: FeedbackDialogContentWidget(success, message),
+            actions: [
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  scanQRCallback();
+                },
+                child: Text('Scan Next'),
+              ),
+            ],
+          ));
+}
+
+void showLoading(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (_) => SimpleDialog(
+            children: [
+              Center(
+                child: CircularProgressIndicator(),
+              )
+            ],
+          ));
+}
+
+void showCollectPackageResultDialog(
+    BuildContext context, bool success, String title, String message) {
+  showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+            title: Text(title),
+            content: FeedbackDialogContentWidget(success, message),
+            actions: [
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('OK'),
+              ),
+            ],
+          ));
 }
 
 /// A reusable widget that contains a success/fail icon and message on a dialog

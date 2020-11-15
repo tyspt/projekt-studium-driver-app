@@ -67,26 +67,26 @@ class _MyHomePageState extends State<MyHomePage> {
       if (resDecoded['action'] == 'handover') {
         _currentHandoverUUID = resDecoded['data'];
 
-        LoadingDialog.showLoading(context);
+        showLoading(context);
         await HandoverService.createHandover(_currentHandoverUUID);
         Navigator.pop(context);
-        HandoverDialogs.showHandOverConfirmationDialog(context, scanQR);
+        showHandOverConfirmationDialog(context, scanQR);
       }
       return;
     }
 
-    LoadingDialog.showLoading(context);
+    showLoading(context);
     if (_currentHandoverUUID != null) {
       // If in handover mode -> add scanned package to ongoing handover
       try {
         await HandoverService.addPackage(_currentHandoverUUID, barcodeScanRes);
         Navigator.pop(context);
-        HandoverDialogs.showAddPackageFeedbackDialog(context, scanQR, true,
-            "Success", "Package has been successfully added to handover list.");
+        showAddPackageFeedbackDialog(context, scanQR, true, "Success",
+            "Package has been successfully added to handover list.");
         return;
       } on IlleagalPackageStatusException catch (err) {
         Navigator.pop(context);
-        HandoverDialogs.showAddPackageFeedbackDialog(context, scanQR, false,
+        showAddPackageFeedbackDialog(context, scanQR, false,
             "Failed to add package", "Error: " + err.toString());
         return;
       } on HandoverClosedException {

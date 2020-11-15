@@ -65,17 +65,19 @@ class _PackageDetailPopupDialogState extends State<PackageDetailPopupDialog> {
     return SimpleDialog(
       title: Text("Package #" + widget._package.id.toString()),
       children: [
-        Center(
+        Divider(),
+        Padding(
+          padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
           child: Column(
             children: [
-              DetailRow(
-                  'Tracking Number:', Text(widget._package.barcode ?? 'N/A')),
-              DetailRow(
-                  'Order Number:', Text(widget._package.orderNumber ?? 'N/A')),
               DetailRow(
                   'Type:',
                   Text(Casing.titleCase(
                       EnumToString.convertToString(widget._package.type)))),
+              DetailRow(
+                  'Tracking Number:', Text(widget._package.barcode ?? 'N/A')),
+              DetailRow(
+                  'Order Number:', Text(widget._package.orderNumber ?? 'N/A')),
               DetailRow('Recipient Name:',
                   Text(widget._package.recipient.name ?? 'N/A')),
               DetailRow(

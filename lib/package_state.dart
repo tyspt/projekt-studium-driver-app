@@ -1,8 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-
-import './models/package.dart';
+import 'package:projekt_studium_driver_app/models/package.dart';
 
 /// A state model class that follows provider pattern for internal package state management, read this guide
 /// for more details: https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple
@@ -23,7 +22,6 @@ class PackageModel extends ChangeNotifier {
   Package get activePackage => _activePackage;
 
   void reloadAll(List<Package> packages) {
-    this._activePackage = null;
     _packages.clear();
     _packages.addAll(packages);
     // This call tells the widgets that are listening to this model to rebuild.

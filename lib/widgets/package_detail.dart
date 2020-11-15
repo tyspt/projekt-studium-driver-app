@@ -2,12 +2,11 @@ import 'package:dart_casing/dart_casing.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:projekt_studium_driver_app/models/package.dart';
+import 'package:projekt_studium_driver_app/package_state.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
 import 'package:projekt_studium_driver_app/widgets/feedback_dialog.dart';
 import 'package:projekt_studium_driver_app/widgets/package_list.dart';
 import 'package:provider/provider.dart';
-
-import '../package_state.dart';
 
 void showPackageDetailDialog(
     BuildContext context, Package package, Function scanQR) {

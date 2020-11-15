@@ -1,12 +1,14 @@
+import 'dart:developer' as developer;
+
 import 'package:cron/cron.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:projekt_studium_driver_app/env.dart';
+import 'package:projekt_studium_driver_app/package_state.dart';
 import 'package:projekt_studium_driver_app/services/driver_service.dart';
+import 'package:projekt_studium_driver_app/widgets/homepage.dart';
 import 'package:provider/provider.dart';
-
-import './env.dart';
-import './package_state.dart';
-import './widgets/homepage.dart';
 
 void main() {
   runApp(
@@ -19,9 +21,12 @@ void main() {
   // Scheduled job to upload driver location
   final cron = Cron();
   cron.schedule(Schedule.parse(environment['locationUpdateCron']), () async {
-    print('uploading driver location...');
-    await DriverService.updateLocation(12, 12);
-    print('done...');
+    developer.log('Reading current driver location...', name: 'location');
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    await DriverService.updateLocation(
+        position.longitude, position.latitude, position.accuracy);
+    developer.log('Done!', name: 'location');
   });
 }
 

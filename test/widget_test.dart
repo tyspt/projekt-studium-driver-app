@@ -11,4 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:projekt_studium_driver_app/main.dart';
 
 void main() {
+  testWidgets('dummy tester', (WidgetTester tester) {
+    return;
+  });
 }

@@ -141,9 +141,9 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.get_app), title: Text('Inbound')),
+              icon: Icon(Icons.get_app), label: 'Inbound'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.publish), title: Text('Outbound')),
+              icon: Icon(Icons.publish), label: 'Outbound'),
         ],
         currentIndex: _selectedIndex,
         onTap: (index) => setState(() {

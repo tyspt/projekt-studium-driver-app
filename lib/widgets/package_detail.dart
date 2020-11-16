@@ -30,13 +30,17 @@ class PackageDetailPopupDialog extends StatelessWidget {
   List<Widget> _inboundActions(BuildContext context) {
     final List<Widget> allowedActions = [];
     switch (_package.status) {
-      case PackageStatus.CREATED:
-        allowedActions.add(PackageDetailActionButton(
-            "Start Handover Process\n(Scan QR)", _scanQRFn));
-        break;
       case PackageStatus.IN_TRANSPORT:
-        allowedActions.add(PackageDetailActionButton("Deliver Package"));
-        allowedActions.add(PackageDetailActionButton("Not Deliverable"));
+        allowedActions.add(PackageDetailActionButton("Mark as Delivered",
+            () => this._updatePackageStatus(context, PackageStatus.DELIVERED)));
+        allowedActions.add(PackageDetailActionButton(
+            "Reschedule Delivery",
+            () => this._updatePackageStatus(
+                context, PackageStatus.REATTEMPT_DELIVERY)));
+        allowedActions.add(PackageDetailActionButton(
+            "Not Deliverable",
+            () => this
+                ._updatePackageStatus(context, PackageStatus.NOT_DELIVERABLE)));
         break;
     }
     return allowedActions;
@@ -48,30 +52,34 @@ class PackageDetailPopupDialog extends StatelessWidget {
     switch (_package.status) {
       case PackageStatus.CREATED:
         allowedActions.add(PackageDetailActionButton(
-            'Collect Package', () => this._collectPackage(context)));
-        break;
-      case PackageStatus.IN_TRANSPORT:
-        allowedActions.add(PackageDetailActionButton(
-            "Start Handover Process\n(Scan QR)", _scanQRFn));
+            'Collect Package',
+            () => this
+                ._updatePackageStatus(context, PackageStatus.IN_TRANSPORT)));
         break;
     }
     return allowedActions;
   }
 
-  Future<void> _collectPackage(BuildContext context) async {
+  Future<void> _updatePackageStatus(
+      BuildContext context, PackageStatus targetStatus) async {
     showLoading(context);
     try {
       final updatedPackage = await PackageService.updatePackageStatus(
-          _package.id.toString(), PackageStatus.IN_TRANSPORT);
+          _package.id.toString(), targetStatus);
       Navigator.pop(context);
       Provider.of<PackageModel>(context, listen: false)
           .updateActivePackageData(updatedPackage);
       showCollectPackageResultDialog(
-          context, true, "Success", "Package has been successfully collected.");
+          context,
+          true,
+          "Success",
+          "Package has been successfully marked as " +
+              EnumToString.convertToString(targetStatus) +
+              ".");
     } on Exception catch (err) {
       Navigator.pop(context);
-      showCollectPackageResultDialog(
-          context, false, "Collect package failed", "Error: " + err.toString());
+      showCollectPackageResultDialog(context, false,
+          "Failed to update package status", "Error: " + err.toString());
     }
   }
 

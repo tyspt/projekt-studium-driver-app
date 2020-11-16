@@ -1,12 +1,12 @@
-import 'package:projekt_studium_driver_app/models/person.dart';
+import 'package:projekt_studium_driver_app/models/employee.dart';
 
 class Package {
   int id;
   PackageType type;
   String barcode;
   String orderNumber;
-  Person recipient;
-  Person sender;
+  Employee recipient;
+  Employee sender;
   String createdTimestamp;
   String lastUpdatedTimestamp;
   PackageStatus status;
@@ -31,8 +31,8 @@ class Package {
       createdTimestamp: json['createdTimestamp'],
       lastUpdatedTimestamp: json['lastUpdatedTimestamp'],
       status: packageStatusFromJson(json['status']),
-      recipient: Person.fromJson(json['recipient']),
-      sender: Person.fromJson(json['sender']),
+      recipient: Employee.fromJson(json['recipient']),
+      sender: Employee.fromJson(json['sender']),
     );
   }
 

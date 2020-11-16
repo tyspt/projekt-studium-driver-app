@@ -18,16 +18,21 @@ void main() {
     ),
   );
 
-  // Scheduled job to upload driver location
+  // Initial update location once app starts
+  updateLocation();
+  // Set up scheduled job to perform location update periodically
   final cron = Cron();
-  cron.schedule(Schedule.parse(environment['locationUpdateCron']), () async {
-    developer.log('Reading current driver location...', name: 'location');
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    await DriverService.updateLocation(
-        position.longitude, position.latitude, position.accuracy);
-    developer.log('Done!', name: 'location');
-  });
+  cron.schedule(
+      Schedule.parse(environment['locationUpdateCron']), updateLocation);
+}
+
+Future<void> updateLocation() async {
+  developer.log('Reading current driver location...', name: 'location');
+  Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high);
+  await DriverService.updateLocation(
+      position.longitude, position.latitude, position.accuracy);
+  developer.log('Done!', name: 'location');
 }
 
 class MyApp extends StatelessWidget {

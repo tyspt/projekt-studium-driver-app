@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:projekt_studium_driver_app/exceptions/HandoverClosedException.dart';
 import 'package:projekt_studium_driver_app/exceptions/IlleagalPackageStatusException.dart';
 import 'package:projekt_studium_driver_app/models/package.dart';
@@ -103,14 +102,6 @@ class _MyHomePageState extends State<MyHomePage> {
     showPackageDetailDialog(context, package, scanQR);
   }
 
-  Future<void> locationTest() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    print(permission);
-
-    LocationPermission p2 = await Geolocator.requestPermission();
-    print(p2);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,16 +125,14 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: locationTest,
+        onPressed: scanQR,
         tooltip: 'Scan Barcode / QR Code',
         child: Icon(Icons.camera_alt),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.get_app), label: 'Inbound'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.publish), label: 'Outbound'),
+          BottomNavigationBarItem(icon: Icon(Icons.get_app), label: 'Inbound'),
+          BottomNavigationBarItem(icon: Icon(Icons.publish), label: 'Outbound'),
         ],
         currentIndex: _selectedIndex,
         onTap: (index) => setState(() {

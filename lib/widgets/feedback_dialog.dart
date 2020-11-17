@@ -20,7 +20,7 @@ void showHandOverConfirmationDialog(
           ));
 }
 
-void showAddPackageFeedbackDialog(BuildContext context, Function scanQRCallback,
+void showFeedbackDialog(BuildContext context, Function scanQRCallback,
     bool success, String title, String message) {
   showDialog(
       context: context,

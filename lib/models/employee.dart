@@ -25,7 +25,7 @@ class Employee {
       email: json['email'],
       telephone: json['telephone'],
       fullAddress: json['fullAddress'],
-      building: Building.fromJson(json['building']),
+      building: json['building'] == null ? null : Building.fromJson(json['building']),
       representative: json['representative'] == null
           ? null
           : Employee.fromJson(json['representative']));

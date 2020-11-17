@@ -13,10 +13,12 @@ class PackageList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-        children: _packages
-            .map<Widget>((package) => PackageListItem(package, _scanQRFn))
-            .toList());
+    return _packages.length > 0
+        ? ListView(
+            children: _packages
+                .map<Widget>((package) => PackageListItem(package, _scanQRFn))
+                .toList())
+        : Text("No data found");
   }
 }
 
@@ -62,7 +64,10 @@ class PackageListItem extends StatelessWidget {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                '#' + _package.barcode,
+                                (_package.barcode == null ||
+                                        _package.barcode.isEmpty)
+                                    ? 'N/A'
+                                    : '#' + _package.barcode,
                               ),
                               Text(_package.createdTimestamp,
                                   textScaleFactor: 0.9,

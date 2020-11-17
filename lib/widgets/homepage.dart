@@ -64,10 +64,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (!isPackageIdOrBarcode) {
       // Start package handover mode
-      final resDecoded = json.decode(barcodeScanRes);
+      var resDecoded;
+      try {
+        resDecoded = json.decode(barcodeScanRes);
+      } on Exception {
+        showFeedbackDialog(context, scanQR, false, "Failed to parse QR code",
+            "The scanned code can not be recognized by system, please try again!");
+        return;
+      }
+
       if (resDecoded['action'] == 'handover') {
         _currentHandoverUUID = resDecoded['data'];
-
         showLoading(context);
         await HandoverService.createHandover(_currentHandoverUUID);
         Navigator.pop(context);
@@ -82,13 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
       try {
         await HandoverService.addPackage(_currentHandoverUUID, barcodeScanRes);
         Navigator.pop(context);
-        showAddPackageFeedbackDialog(context, scanQR, true, "Success",
+        showFeedbackDialog(context, scanQR, true, "Success",
             "Package has been successfully added to handover list.");
         return;
       } on IlleagalPackageStatusException catch (err) {
         Navigator.pop(context);
-        showAddPackageFeedbackDialog(context, scanQR, false,
-            "Failed to add package", "Error: " + err.toString());
+        showFeedbackDialog(context, scanQR, false, "Failed to add package",
+            "Error: " + err.toString());
         return;
       } on HandoverClosedException {
         _currentHandoverUUID = null;
@@ -96,10 +103,16 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     // Display package detail popup
-    final Package package =
-        await PackageService.getPackageByIdOrBarcode(barcodeScanRes);
-    Navigator.pop(context);
-    showPackageDetailDialog(context, package, scanQR);
+    try {
+      final Package package =
+          await PackageService.getPackageByIdOrBarcode(barcodeScanRes);
+      Navigator.pop(context);
+      showPackageDetailDialog(context, package, scanQR);
+    } on Exception catch (err) {
+      Navigator.pop(context);
+      showFeedbackDialog(context, scanQR, false, "Failed to find package",
+          "Error: " + err.toString());
+    }
   }
 
   @override

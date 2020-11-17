@@ -49,9 +49,9 @@ class HandoverService extends BaseService {
       case 200:
         return Handover.fromJson(json.decode(response.body));
       case 403:
+      case 404:
         // Package not in a status that can be added to handover
         throw new IlleagalPackageStatusException(response.body);
-      case 404:
       case 410:
         // Handover is already confirmed, canceled or has not been created yet
         throw new HandoverClosedException(response.body);

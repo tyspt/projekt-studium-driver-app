@@ -31,7 +31,7 @@ class PackageDetailPopupDialog extends StatelessWidget {
     switch (_package.status) {
       case PackageStatus.IN_TRANSPORT:
       case PackageStatus.REATTEMPT_DELIVERY:
-       allowedActions.add(PackageDetailActionButton("Deliver Package",
+        allowedActions.add(PackageDetailActionButton("Deliver Package",
             () => this._updatePackageStatus(context, PackageStatus.DELIVERED)));
         allowedActions.add(PackageDetailActionButton(
             "Reschedule Delivery",
@@ -73,7 +73,7 @@ class PackageDetailPopupDialog extends StatelessWidget {
       Navigator.pop(context);
       Provider.of<PackageModel>(context, listen: false)
           .updateActivePackageData(updatedPackage);
-      showUpdatePackageStatusResultDialog(
+      showFeedbackDialog(
           context,
           true,
           "Success",
@@ -82,8 +82,8 @@ class PackageDetailPopupDialog extends StatelessWidget {
               ".");
     } on Exception catch (err) {
       Navigator.pop(context);
-      showUpdatePackageStatusResultDialog(context, false,
-          "Failed to update package status", "Error: " + err.toString());
+      showFeedbackDialog(
+          context, false, "Failed to update package status", err.toString());
     }
   }
 

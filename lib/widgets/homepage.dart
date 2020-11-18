@@ -68,7 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
       try {
         resDecoded = json.decode(barcodeScanRes);
       } on Exception {
-        showFeedbackDialog(context, scanQR, false, "Failed to parse QR code",
+        showScanPackageResultDialog(
+            context,
+            scanQR,
+            false,
+            "Failed to parse QR code",
             "The scanned code can not be recognized by system, please try again!");
         return;
       }
@@ -89,13 +93,13 @@ class _MyHomePageState extends State<MyHomePage> {
       try {
         await HandoverService.addPackage(_currentHandoverUUID, barcodeScanRes);
         Navigator.pop(context);
-        showFeedbackDialog(context, scanQR, true, "Success",
+        showScanPackageResultDialog(context, scanQR, true, "Success",
             "Package has been successfully added to handover list.");
         return;
       } on IlleagalPackageStatusException catch (err) {
         Navigator.pop(context);
-        showFeedbackDialog(context, scanQR, false, "Failed to add package",
-            "Error: " + err.toString());
+        showScanPackageResultDialog(
+            context, scanQR, false, "Failed to add package", err.toString());
         return;
       } on HandoverClosedException {
         _currentHandoverUUID = null;
@@ -110,8 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
       showPackageDetailDialog(context, package, scanQR);
     } on Exception catch (err) {
       Navigator.pop(context);
-      showFeedbackDialog(context, scanQR, false, "Failed to find package",
-          "Error: " + err.toString());
+      showScanPackageResultDialog(
+          context, scanQR, false, "Failed to find package", err.toString());
     }
   }
 

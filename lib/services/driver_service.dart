@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 
 import 'package:http/http.dart' as http;
-import 'package:projekt_studium_driver_app/exceptions/IlleagalPackageStatusException.dart';
+import 'package:projekt_studium_driver_app/exceptions/IllegalPackageStatusException.dart';
 import 'package:projekt_studium_driver_app/exceptions/NotFoundException.dart';
 import 'package:projekt_studium_driver_app/models/driver.dart';
 

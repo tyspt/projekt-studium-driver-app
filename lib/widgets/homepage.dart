@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:projekt_studium_driver_app/exceptions/HandoverClosedException.dart';
-import 'package:projekt_studium_driver_app/exceptions/IlleagalPackageStatusException.dart';
+import 'package:projekt_studium_driver_app/exceptions/IllegalPackageStatusException.dart';
 import 'package:projekt_studium_driver_app/models/package.dart';
 import 'package:projekt_studium_driver_app/package_state.dart';
 import 'package:projekt_studium_driver_app/services/handover_service.dart';

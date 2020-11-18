@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:projekt_studium_driver_app/exceptions/HandoverClosedException.dart';
-import 'package:projekt_studium_driver_app/exceptions/IlleagalPackageStatusException.dart';
+import 'package:projekt_studium_driver_app/exceptions/IllegalPackageStatusException.dart';
 import 'package:projekt_studium_driver_app/models/handover.dart';
 import 'package:projekt_studium_driver_app/services/base_service.dart';
 

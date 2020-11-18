@@ -51,7 +51,7 @@ void showLoading(BuildContext context) {
           ));
 }
 
-void showCollectPackageResultDialog(
+void showUpdatePackageStatusResultDialog(
     BuildContext context, bool success, String title, String message) {
   showDialog(
       context: context,

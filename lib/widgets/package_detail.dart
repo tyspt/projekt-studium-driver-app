@@ -30,6 +30,7 @@ class PackageDetailPopupDialog extends StatelessWidget {
     final List<Widget> allowedActions = [];
     switch (_package.status) {
       case PackageStatus.IN_TRANSPORT:
+      case PackageStatus.REATTEMPT_DELIVERY:
         allowedActions.add(PackageDetailActionButton("Mark as Delivered",
             () => this._updatePackageStatus(context, PackageStatus.DELIVERED)));
         allowedActions.add(PackageDetailActionButton(
@@ -40,6 +41,8 @@ class PackageDetailPopupDialog extends StatelessWidget {
             "Not Deliverable",
             () => this
                 ._updatePackageStatus(context, PackageStatus.NOT_DELIVERABLE)));
+        break;
+      default:
         break;
     }
     return allowedActions;
@@ -54,6 +57,8 @@ class PackageDetailPopupDialog extends StatelessWidget {
             'Collect Package',
             () => this
                 ._updatePackageStatus(context, PackageStatus.IN_TRANSPORT)));
+        break;
+      default:
         break;
     }
     return allowedActions;

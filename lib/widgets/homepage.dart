@@ -68,12 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
       try {
         resDecoded = json.decode(barcodeScanRes);
       } on Exception {
-        showScanPackageResultDialog(
-            context,
-            scanQR,
-            false,
-            "Failed to parse QR code",
-            "The scanned code can not be recognized by system, please try again!");
+        showFeedbackDialog(context, false, "Failed to parse QR code",
+            "The scanned code can not be recognized by system, please try again!",
+            actionButtonText: 'Scan next', callbackFunc: scanQR);
         return;
       }
 
@@ -93,13 +90,15 @@ class _MyHomePageState extends State<MyHomePage> {
       try {
         await HandoverService.addPackage(_currentHandoverUUID, barcodeScanRes);
         Navigator.pop(context);
-        showScanPackageResultDialog(context, scanQR, true, "Success",
-            "Package has been successfully added to handover list.");
+        showFeedbackDialog(context, true, "Success",
+            "Package has been successfully added to handover list.",
+            actionButtonText: 'Scan next', callbackFunc: scanQR);
         return;
       } on IlleagalPackageStatusException catch (err) {
         Navigator.pop(context);
-        showScanPackageResultDialog(
-            context, scanQR, false, "Failed to add package", err.toString());
+        showFeedbackDialog(
+            context, false, "Failed to add package", err.toString(),
+            actionButtonText: 'Scan next', callbackFunc: scanQR);
         return;
       } on HandoverClosedException {
         _currentHandoverUUID = null;
@@ -114,8 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
       showPackageDetailDialog(context, package, scanQR);
     } on Exception catch (err) {
       Navigator.pop(context);
-      showScanPackageResultDialog(
-          context, scanQR, false, "Failed to find package", err.toString());
+      showFeedbackDialog(
+          context, false, "Failed to find package", err.toString(),
+          actionButtonText: 'Scan next', callbackFunc: scanQR);
     }
   }
 

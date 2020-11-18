@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
 
+void showLoading(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (_) => SimpleDialog(
+            children: [
+              Center(
+                child: CircularProgressIndicator(),
+              )
+            ],
+          ));
+}
+
 void showHandOverConfirmationDialog(
     BuildContext context, Function scanQRCallback) {
   showDialog(
@@ -20,39 +32,9 @@ void showHandOverConfirmationDialog(
           ));
 }
 
-void showScanPackageResultDialog(BuildContext context, Function scanQRCallback,
-    bool success, String title, String message) {
-  showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-            title: Text(title),
-            content: FeedbackDialogContentWidget(success, message),
-            actions: [
-              FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  scanQRCallback();
-                },
-                child: Text('Scan Next'),
-              ),
-            ],
-          ));
-}
-
-void showLoading(BuildContext context) {
-  showDialog(
-      context: context,
-      builder: (_) => SimpleDialog(
-            children: [
-              Center(
-                child: CircularProgressIndicator(),
-              )
-            ],
-          ));
-}
-
 void showFeedbackDialog(
-    BuildContext context, bool success, String title, String message) {
+    BuildContext context, bool success, String title, String message,
+    {String actionButtonText = 'OK', Function callbackFunc}) {
   showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -62,8 +44,11 @@ void showFeedbackDialog(
               FlatButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  if (callbackFunc != null) {
+                    callbackFunc();
+                  }
                 },
-                child: Text('OK'),
+                child: Text(actionButtonText),
               ),
             ],
           ));

@@ -15,16 +15,15 @@ void showPackageDetailDialog(
       context: context,
       builder: (_) => Consumer<PackageModel>(
             builder: (context, model, child) {
-              return PackageDetailPopupDialog(model.activePackage, scanQR);
+              return PackageDetailPopupDialog(model.activePackage);
             },
           ));
 }
 
 class PackageDetailPopupDialog extends StatelessWidget {
   final Package _package;
-  final Function _scanQRFn;
 
-  PackageDetailPopupDialog(this._package, this._scanQRFn);
+  PackageDetailPopupDialog(this._package);
 
   /// List of buttons that can be performed on an inbound package
   List<Widget> _inboundActions(BuildContext context) {

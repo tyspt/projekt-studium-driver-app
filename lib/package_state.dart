@@ -6,11 +6,11 @@ import 'package:projekt_studium_driver_app/models/package.dart';
 /// A state model class that follows provider pattern for internal package state management, read this guide
 /// for more details: https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple
 class PackageModel extends ChangeNotifier {
-  /// Internal, private state of the cart.
+  /// Internal, private state of the package list
   final List<Package> _packages = [];
   Package _activePackage;
 
-  /// An unmodifiable view of the items in the cart.
+  /// An unmodifiable view of the items in the package list
   UnmodifiableListView<Package> get packages => UnmodifiableListView(_packages);
 
   UnmodifiableListView<Package> get inboundPackages => UnmodifiableListView(

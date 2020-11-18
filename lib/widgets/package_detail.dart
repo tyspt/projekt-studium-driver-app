@@ -6,6 +6,7 @@ import 'package:projekt_studium_driver_app/package_state.dart';
 import 'package:projekt_studium_driver_app/services/package_service.dart';
 import 'package:projekt_studium_driver_app/widgets/feedback_dialog.dart';
 import 'package:projekt_studium_driver_app/widgets/package_list.dart';
+import 'package:projekt_studium_driver_app/widgets/signature_drawer.dart';
 import 'package:provider/provider.dart';
 
 void showPackageDetailDialog(
@@ -31,8 +32,8 @@ class PackageDetailPopupDialog extends StatelessWidget {
     switch (_package.status) {
       case PackageStatus.IN_TRANSPORT:
       case PackageStatus.REATTEMPT_DELIVERY:
-        allowedActions.add(PackageDetailActionButton("Deliver Package",
-            () => this._updatePackageStatus(context, PackageStatus.DELIVERED)));
+        allowedActions.add(PackageDetailActionButton(
+            "Deliver Package", () => _retrieveRecipientSignature(context)));
         allowedActions.add(PackageDetailActionButton(
             "Reschedule Delivery",
             () => this._updatePackageStatus(
@@ -85,6 +86,15 @@ class PackageDetailPopupDialog extends StatelessWidget {
       showFeedbackDialog(
           context, false, "Failed to update package status", err.toString());
     }
+  }
+
+  _retrieveRecipientSignature(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignatureDrawer()),
+    );
+    print(result);
+    this._updatePackageStatus(context, PackageStatus.DELIVERED);
   }
 
   @override

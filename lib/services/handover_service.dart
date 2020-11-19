@@ -43,8 +43,6 @@ class HandoverService extends BaseService {
         headers: BaseService.headers,
         body: json.encode(body));
 
-    print(response.statusCode);
-
     switch (response.statusCode) {
       case 200:
         return Handover.fromJson(json.decode(response.body));

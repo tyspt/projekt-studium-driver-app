@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dart_casing/dart_casing.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
@@ -66,11 +68,13 @@ class PackageDetailPopupDialog extends StatelessWidget {
   }
 
   Future<void> _updatePackageStatus(
-      BuildContext context, PackageStatus targetStatus) async {
+      BuildContext context, PackageStatus targetStatus,
+      {signature: Uint8List}) async {
     showLoading(context);
     try {
       final updatedPackage = await PackageService.updatePackageStatus(
-          _package.id.toString(), targetStatus);
+          _package.id.toString(), targetStatus,
+          signature: signature);
       Navigator.pop(context);
       Provider.of<PackageModel>(context, listen: false)
           .updateActivePackageData(updatedPackage);
@@ -89,12 +93,12 @@ class PackageDetailPopupDialog extends StatelessWidget {
   }
 
   _retrieveRecipientSignature(BuildContext context) async {
-    final result = await Navigator.push(
+    final Uint8List result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SignatureDrawer()),
     );
-    print(result);
-    this._updatePackageStatus(context, PackageStatus.DELIVERED);
+    this._updatePackageStatus(context, PackageStatus.DELIVERED,
+        signature: result);
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:http/http.dart' as http;
@@ -34,9 +35,14 @@ class PackageService extends BaseService {
   }
 
   static Future<Package> updatePackageStatus(
-      String queryNumber, PackageStatus status) async {
+      String queryNumber, PackageStatus status,
+      {signature: Uint8List}) async {
     Map<String, String> body = new Map();
     body.putIfAbsent('status', () => EnumToString.convertToString(status));
+
+    if (signature != null) {
+      body.putIfAbsent('signature', () => base64.encode(signature));
+    }
 
     final response = await http.put(
         '${BaseService.baseUrl}/packages/$queryNumber',

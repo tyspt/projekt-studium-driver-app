@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
 
-import 'package:http/http.dart' as http;
 import 'package:projekt_studium_driver_app/exceptions/IllegalPackageStatusException.dart';
 import 'package:projekt_studium_driver_app/exceptions/NotFoundException.dart';
 import 'package:projekt_studium_driver_app/models/driver.dart';
@@ -19,8 +18,12 @@ class DriverService extends BaseService {
     developer.log('Uploading to server... data: ' + body.toString(),
         name: 'location');
 
-    final response = await http.put('${BaseService.baseUrl}/drivers/location',
-        headers: BaseService.headers, body: json.encode(body));
+    final response = await BaseService.client
+        .put('${BaseService.baseUrl}/drivers/location',
+            headers: BaseService.headers, body: json.encode(body))
+        .timeout(
+          Duration(seconds: BaseService.requestTimeout),
+        );
 
     switch (response.statusCode) {
       case 200:

@@ -1,8 +1,8 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:typed_data';
 
 import 'package:enum_to_string/enum_to_string.dart';
-import 'package:http/http.dart' as http;
 import 'package:projekt_studium_driver_app/exceptions/IllegalPackageStatusException.dart';
 import 'package:projekt_studium_driver_app/exceptions/NotFoundException.dart';
 import 'package:projekt_studium_driver_app/models/package.dart';
@@ -10,7 +10,12 @@ import 'package:projekt_studium_driver_app/services/base_service.dart';
 
 class PackageService extends BaseService {
   static Future<List<Package>> getData() async {
-    final response = await http.get('${BaseService.baseUrl}/packages');
+    developer.log("loading packages...", name: 'package');
+
+    final response =
+        await BaseService.client.get('${BaseService.baseUrl}/packages').timeout(
+              Duration(seconds: BaseService.requestTimeout),
+            );
 
     if (response.statusCode == 200) {
       return (json.decode(response.body) as List)
@@ -23,8 +28,11 @@ class PackageService extends BaseService {
   }
 
   static Future<Package> getPackageByIdOrBarcode(String queryNumber) async {
-    final response =
-        await http.get('${BaseService.baseUrl}/packages/$queryNumber');
+    final response = await BaseService.client
+        .get('${BaseService.baseUrl}/packages/$queryNumber')
+        .timeout(
+          Duration(seconds: BaseService.requestTimeout),
+        );
 
     if (response.statusCode == 200) {
       return Package.fromJson(json.decode(response.body));
@@ -36,7 +44,7 @@ class PackageService extends BaseService {
 
   static Future<Package> updatePackageStatus(
       String queryNumber, PackageStatus status,
-      {signature: Uint8List}) async {
+      {Uint8List signature}) async {
     Map<String, String> body = new Map();
     body.putIfAbsent('status', () => EnumToString.convertToString(status));
 
@@ -44,10 +52,12 @@ class PackageService extends BaseService {
       body.putIfAbsent('signature', () => base64.encode(signature));
     }
 
-    final response = await http.put(
-        '${BaseService.baseUrl}/packages/$queryNumber',
-        headers: BaseService.headers,
-        body: json.encode(body));
+    final response = await BaseService.client
+        .put('${BaseService.baseUrl}/packages/$queryNumber',
+            headers: BaseService.headers, body: json.encode(body))
+        .timeout(
+          Duration(seconds: BaseService.requestTimeout),
+        );
 
     switch (response.statusCode) {
       case 200:

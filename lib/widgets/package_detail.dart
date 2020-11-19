@@ -69,7 +69,7 @@ class PackageDetailPopupDialog extends StatelessWidget {
 
   Future<void> _updatePackageStatus(
       BuildContext context, PackageStatus targetStatus,
-      {signature: Uint8List}) async {
+      {Uint8List signature}) async {
     showLoading(context);
     try {
       final updatedPackage = await PackageService.updatePackageStatus(

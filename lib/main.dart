@@ -27,12 +27,16 @@ void main() {
 }
 
 Future<void> updateLocation() async {
-  developer.log('Reading current driver location...', name: 'location');
-  Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high);
-  await DriverService.updateLocation(
-      position.longitude, position.latitude, position.accuracy);
-  developer.log('Done!', name: 'location');
+  try {
+    developer.log('Reading current driver location...', name: 'location');
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    await DriverService.updateLocation(
+        position.longitude, position.latitude, position.accuracy);
+    developer.log('Done!', name: 'location');
+  } on Exception {
+    developer.log("Error: Could not get location data", name: 'location');
+  }
 }
 
 class MyApp extends StatelessWidget {

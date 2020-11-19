@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:projekt_studium_driver_app/exceptions/HandoverClosedException.dart';
 import 'package:projekt_studium_driver_app/exceptions/IllegalPackageStatusException.dart';
 import 'package:projekt_studium_driver_app/models/handover.dart';
@@ -8,7 +7,11 @@ import 'package:projekt_studium_driver_app/services/base_service.dart';
 
 class HandoverService extends BaseService {
   static Future<Handover> findByUuid(String uuid) async {
-    final response = await http.get('${BaseService.baseUrl}/handovers/$uuid');
+    final response = await BaseService.client
+        .get('${BaseService.baseUrl}/handovers/$uuid')
+        .timeout(
+          Duration(seconds: BaseService.requestTimeout),
+        );
 
     if (response.statusCode == 200) {
       return Handover.fromJson(json.decode(response.body));
@@ -22,8 +25,12 @@ class HandoverService extends BaseService {
     Map<String, String> body = new Map();
     body.putIfAbsent('uuid', () => uuid);
 
-    final response = await http.post('${BaseService.baseUrl}/handovers',
-        headers: BaseService.headers, body: json.encode(body));
+    final response = await BaseService.client
+        .post('${BaseService.baseUrl}/handovers',
+            headers: BaseService.headers, body: json.encode(body))
+        .timeout(
+          Duration(seconds: BaseService.requestTimeout),
+        );
 
     if (response.statusCode == 201) {
       return Handover.fromJson(json.decode(response.body));
@@ -38,10 +45,12 @@ class HandoverService extends BaseService {
     Map<String, String> body = new Map();
     body.putIfAbsent('idOrBarcode', () => pkgIdOrBarcode);
 
-    final response = await http.put(
-        '${BaseService.baseUrl}/handovers/$handoverUuid',
-        headers: BaseService.headers,
-        body: json.encode(body));
+    final response = await BaseService.client
+        .put('${BaseService.baseUrl}/handovers/$handoverUuid',
+            headers: BaseService.headers, body: json.encode(body))
+        .timeout(
+          Duration(seconds: BaseService.requestTimeout),
+        );
 
     switch (response.statusCode) {
       case 200:

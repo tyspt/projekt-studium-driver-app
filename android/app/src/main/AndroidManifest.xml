@@ -6,6 +6,8 @@
     <!-- Location permission is added for GPS tracking functionality of the app -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <!-- Camera is needed for scanning barcodes and QR codes -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.

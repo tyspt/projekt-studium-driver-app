@@ -97,8 +97,10 @@ class PackageDetailPopupDialog extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (context) => SignatureDrawer()),
     );
-    this._updatePackageStatus(context, PackageStatus.DELIVERED,
-        signature: result);
+    if (result != null) {
+      this._updatePackageStatus(context, PackageStatus.DELIVERED,
+          signature: result);
+    }
   }
 
   @override
@@ -115,8 +117,8 @@ class PackageDetailPopupDialog extends StatelessWidget {
                   'Type:',
                   Text(Casing.titleCase(
                       EnumToString.convertToString(_package.type)))),
-              DetailRow('Tracking Number:', Text(_package.barcode ?? 'N/A')),
-              DetailRow('Order Number:', Text(_package.orderNumber ?? 'N/A')),
+              DetailRow('Tracking No.:', Text(_package.barcode ?? 'N/A')),
+              DetailRow('SAP Order:', Text(_package.orderNumber ?? 'N/A')),
               DetailRow(
                   'Recipient Name:', Text(_package.recipient.name ?? 'N/A')),
               DetailRow('Email:', Text(_package.recipient.email ?? 'N/A')),

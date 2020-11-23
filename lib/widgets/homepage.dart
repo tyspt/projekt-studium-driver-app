@@ -144,7 +144,10 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: scanQR,
         tooltip: 'Scan Barcode / QR Code',
-        child: Icon(Icons.camera_alt),
+        child: IconTheme(
+          data: IconThemeData(color: Colors.white),
+          child: Icon(Icons.camera_alt),
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

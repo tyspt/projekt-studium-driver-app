@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:projekt_studium_driver_app/env.dart';
 import 'package:projekt_studium_driver_app/package_state.dart';
 import 'package:projekt_studium_driver_app/services/driver_service.dart';
+import 'package:projekt_studium_driver_app/utils/theme_color.dart';
 import 'package:projekt_studium_driver_app/widgets/homepage.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Logistic Driver App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: generateMaterialColor(Color(0xFFFFA500)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Home Page'),

@@ -1,12 +1,12 @@
-import 'package:projekt_studium_driver_app/models/person.dart';
+import 'package:projekt_studium_driver_app/models/employee.dart';
 
 class Package {
   int id;
   PackageType type;
   String barcode;
   String orderNumber;
-  Person recipient;
-  Person sender;
+  Employee recipient;
+  Employee sender;
   String createdTimestamp;
   String lastUpdatedTimestamp;
   PackageStatus status;
@@ -31,8 +31,8 @@ class Package {
       createdTimestamp: json['createdTimestamp'],
       lastUpdatedTimestamp: json['lastUpdatedTimestamp'],
       status: packageStatusFromJson(json['status']),
-      recipient: Person.fromJson(json['recipient']),
-      sender: Person.fromJson(json['sender']),
+      recipient: Employee.fromJson(json['recipient']),
+      sender: Employee.fromJson(json['sender']),
     );
   }
 
@@ -40,6 +40,14 @@ class Package {
   String toString() {
     return 'Package{id: $id, type: $type, barcode: $barcode, orderNumber: $orderNumber, recipient: $recipient, sender: $sender, createdTimestamp: $createdTimestamp, lastUpdatedTimestamp: $lastUpdatedTimestamp, status: $status}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Package && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 PackageStatus packageStatusFromJson(String strValue) {
@@ -63,6 +71,5 @@ enum PackageStatus {
   REATTEMPT_DELIVERY,
   DELIVERED,
   NOT_DELIVERABLE,
-  COLLECTED,
-  RECEIVED_BY_LOGISTIC_CENTER
+  RECEIVED_BY_LC
 }

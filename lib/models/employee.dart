@@ -1,15 +1,15 @@
 import 'package:projekt_studium_driver_app/models/building.dart';
 
-class Person {
+class Employee {
   int id;
   String name;
   String email;
   String telephone;
   Building building;
   String fullAddress;
-  Person representative;
+  Employee representative;
 
-  Person({
+  Employee({
     this.id,
     this.name,
     this.email,
@@ -19,19 +19,20 @@ class Person {
     this.representative,
   });
 
-  factory Person.fromJson(Map<String, dynamic> json) => Person(
+  factory Employee.fromJson(Map<String, dynamic> json) => Employee(
       id: json['id'],
       name: json['name'],
       email: json['email'],
       telephone: json['telephone'],
       fullAddress: json['fullAddress'],
-      building: Building.fromJson(json['building']),
+      building:
+          json['building'] == null ? null : Building.fromJson(json['building']),
       representative: json['representative'] == null
           ? null
-          : Person.fromJson(json['representative']));
+          : Employee.fromJson(json['representative']));
 
   @override
   String toString() {
-    return 'Person{id: $id, name: $name, email: $email, telephone: $telephone, building: $building, fullAddress: $fullAddress, representative: $representative}';
+    return 'Employee{id: $id, name: $name, email: $email, telephone: $telephone, building: $building, fullAddress: $fullAddress, representative: $representative}';
   }
 }
